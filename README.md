@@ -209,3 +209,25 @@ Pipeline fails if:
 - Linting errors are detected
 - Tests fail
 - Build fails
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
