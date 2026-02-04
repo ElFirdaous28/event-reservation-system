@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "declaration": true,
+        "target": "ES2021",
+        "skipLibCheck": true,
+        "baseUrl": "./",
+        "outDir": "./dist",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "noEmit": true,
+    },
+    "include": [
+        "src/**/*",
+        "index.ts"
+    ]
+}
