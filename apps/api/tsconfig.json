@@ -1,5 +1,11 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "paths": {
+      "@repo/shared": [
+        "../../packages/shared/index.ts"
+      ]
+    },
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,
