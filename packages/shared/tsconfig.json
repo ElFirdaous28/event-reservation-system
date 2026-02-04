@@ -1,18 +1,13 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "declaration": true,
-        "target": "ES2021",
-        "skipLibCheck": true,
-        "baseUrl": "./",
-        "outDir": "./dist",
-        "moduleResolution": "node",
-        "allowJs": true,
-        "noEmit": true,
-        "esModuleInterop": true,
-    },
-    "include": [
-        "src/**/*",
-        "index.ts"
-    ]
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "module": "commonjs",
+    "target": "ES2021",
+    "declaration": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
 }

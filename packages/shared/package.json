@@ -1,13 +1,12 @@
 {
   "name": "@repo/shared",
-  "version": "0.0.0",
-  "main": "./index.js",
-  "types": "./index.d.ts",
   "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc"
   },
   "devDependencies": {
-    "typescript": "^5.7.3"
+    "typescript": "^5.9.3"
   }
 }

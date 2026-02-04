@@ -8,22 +8,24 @@
         "allowSyntheticDefaultImports": true,
         "target": "ES2021",
         "sourceMap": true,
-        "incremental": true,
         "skipLibCheck": true,
         "strictNullChecks": false,
         "noImplicitAny": false,
         "strictBindCallApply": false,
         "forceConsistentCasingInFileNames": false,
         "noFallthroughCasesInSwitch": false,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
         "baseUrl": ".",
         "paths": {
             "@repo/shared": [
-                "packages/shared/index.ts"
+                "packages/shared"
             ]
         }
     },
     "exclude": [
         "node_modules",
-        "dist"
+        "dist",
+        ".next"
     ]
 }
