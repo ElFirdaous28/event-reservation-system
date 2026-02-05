@@ -1,6 +1,6 @@
 import { ReservationStatus } from '../enums';
 
-export interface Reservation {
+export type Reservation = {
     _id?: string;
     event: string;
     participant: string;

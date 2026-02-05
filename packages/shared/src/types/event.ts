@@ -1,6 +1,6 @@
 import { EventStatus } from '../enums';
 
-export interface Event {
+export type Event = {
     _id?: string;
     title: string;
     description?: string;

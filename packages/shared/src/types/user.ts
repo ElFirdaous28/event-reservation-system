@@ -1,6 +1,6 @@
 import { Role } from '../enums';
 
-export interface User {
+export type User = {
     _id?: string;
     name: string;
     email: string;
