@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
+import { HelloModule } from './hello/hello.module';
+import { EventsModule } from './events/events.module';
+import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
   imports: [
@@ -26,6 +29,12 @@ import { UsersModule } from './users/users.module';
     }),
 
     UsersModule,
+
+    HelloModule,
+
+    EventsModule,
+
+    ReservationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

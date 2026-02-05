@@ -2,7 +2,8 @@ import { Role } from '../enums';
 
 export type User = {
     _id?: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     role: Role;
     createdAt?: Date;

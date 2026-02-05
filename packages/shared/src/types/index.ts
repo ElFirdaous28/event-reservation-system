@@ -1,3 +1,3 @@
-export * from './user.js';
-export * from './event.js';
-export * from './reservation.js';
+export * from './user.type.js';
+export * from './event.type.js';
+export * from './reservation.type.js';

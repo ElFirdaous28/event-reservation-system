@@ -1,19 +1,31 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Role } from '@repo/shared';
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { HydratedDocument } from 'mongoose';
 
-export class CreateUserDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @IsEmail()
+@Schema({ timestamps: true })
+export class User {
+  @Prop({ required: true, unique: true, lowercase: true })
   email: string;
 
-  @IsString()
-  @MinLength(6)
+  @Prop({ required: true })
   password: string;
 
-  @IsOptional()
-  @IsEnum(Role)
-  role?: Role;
+  @Prop({ required: true })
+  firstName: string;
+
+  @Prop({ required: true })
+  lastName: string;
+
+  @Prop({
+    type: String,
+    enum: Role,
+    default: Role.PARTICIPANT,
+  })
+  role: Role;
 }
+
+// define the Mongoose document type
+export type UserDocument = HydratedDocument<User>;
+
+// create the schema
+export const UserSchema = SchemaFactory.createForClass(User);
