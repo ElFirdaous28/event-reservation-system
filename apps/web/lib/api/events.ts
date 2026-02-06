@@ -8,7 +8,7 @@ import {
 } from '@repo/shared';
 
 export const eventsApi = {
-  getAll: async (filters?: EventFilters): Promise<EventsResponse> => {
+  getAllEvents: async (filters?: EventFilters): Promise<EventsResponse> => {
     const params = new URLSearchParams();
     if (filters?.status) params.append('status', filters.status);
     if (filters?.search) params.append('search', filters.search);
