@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { HelloModule } from './hello/hello.module';
 import { EventsModule } from './events/events.module';
 import { ReservationsModule } from './reservations/reservations.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -35,6 +36,8 @@ import { ReservationsModule } from './reservations/reservations.module';
     EventsModule,
 
     ReservationsModule,
+
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
