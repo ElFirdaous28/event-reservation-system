@@ -21,8 +21,23 @@ export class EventsController {
   }
 
   @Get()
-  findAll(@Query('status') status?: EventStatus) {
-    return this.eventsService.findAll(status ? { status } : undefined);
+  findAll(
+    @Query('status') status?: EventStatus,
+    @Query('search') search?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+    @Req() req?: Request,
+  ) {
+    const isAdmin = req?.user?.role === Role.ADMIN;
+    return this.eventsService.findAll(
+      {
+        status,
+        search,
+        page: page ? parseInt(page, 10) : undefined,
+        limit: limit ? parseInt(limit, 10) : undefined,
+      },
+      isAdmin,
+    );
   }
 
   @Get(':id')

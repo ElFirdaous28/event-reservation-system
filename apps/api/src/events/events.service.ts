@@ -22,9 +22,51 @@ export class EventsService {
     return newEvent.save();
   }
 
-  async findAll(filters?: { status?: EventStatus }): Promise<EventDocument[]> {
-    const query = filters?.status ? { status: filters.status } : {};
-    return this.eventModel.find(query).populate('createdBy', 'fullName email').exec();
+  async findAll(filters?: { 
+    status?: EventStatus;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }, isAdmin: boolean = false): Promise<{ events: EventDocument[]; total: number; page: number; totalPages: number }> {
+    const page = filters?.page || 1;
+    const limit = filters?.limit || 10;
+    const skip = (page - 1) * limit;
+
+    const query: any = {};
+
+    // Non-admin users can only see published events
+    if (!isAdmin) {
+      query.status = EventStatus.PUBLISHED;
+    } else if (filters?.status) {
+      query.status = filters.status;
+    }
+
+    // Search filter (title, description, location)
+    if (filters?.search) {
+      query.$or = [
+        { title: { $regex: filters.search, $options: 'i' } },
+        { description: { $regex: filters.search, $options: 'i' } },
+        { location: { $regex: filters.search, $options: 'i' } },
+      ];
+    }
+
+    const [events, total] = await Promise.all([
+      this.eventModel
+        .find(query)
+        .populate('createdBy', 'fullName email')
+        .sort({ date: 1 })
+        .skip(skip)
+        .limit(limit)
+        .exec(),
+      this.eventModel.countDocuments(query).exec(),
+    ]);
+
+    return {
+      events,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async findOne(id: string): Promise<EventDocument> {
