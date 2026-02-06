@@ -21,5 +21,4 @@ export interface LoginCredentials {
 
 export interface AuthResponse {
     accessToken: string;
-    message: string;
-}
+    message?: string;

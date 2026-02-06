@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, BadRequestException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -12,11 +12,17 @@ export class AuthService {
 
   async validateUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const { password, ...result } = user.toObject();
-      return result;
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
     }
-    return null;
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const { password: _, ...result } = user.toObject();
+    return result;
   }
 
   async generateTokens(user: any) {
@@ -45,8 +51,22 @@ export class AuthService {
   }
 
   async register(userDto: any) {
-    const user = await this.usersService.create(userDto);
-    return user;
+    // Check if email already exists
+    const existingUser = await this.usersService.findByEmail(userDto.email);
+    if (existingUser) {
+      throw new ConflictException('Email already registered');
+    }
+
+    try {
+      const user = await this.usersService.create(userDto);
+      return user;
+    } catch (error: any) {
+      // Handle MongoDB duplicate key error
+      if (error.code === 11000) {
+        throw new ConflictException('Email already registered');
+      }
+      throw error;
+    }
   }
 
   async refreshTokens(refreshToken: string) {
