@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { ReservationsModule } from './reservations/reservations.module';
 import { AuthModule } from './auth/auth.module';
+import { SeederModule } from './seeders/seeder.module';
 
 @Module({
   imports: [
@@ -35,6 +36,8 @@ import { AuthModule } from './auth/auth.module';
     ReservationsModule,
 
     AuthModule,
+
+    SeederModule,
   ],
   controllers: [AppController],
   providers: [AppService],
