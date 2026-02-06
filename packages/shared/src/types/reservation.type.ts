@@ -1,5 +1,6 @@
 import { ReservationStatus } from '../enums/reservation-status.enum';
 import { User } from './user.type';
+import { Event } from './event.type';
 
 export type SafeReservation = {
     id: string;
@@ -8,3 +9,11 @@ export type SafeReservation = {
     status: ReservationStatus;
     createdAt: Date;
 };
+
+export interface CreateReservationData {
+    eventId: string;
+}
+
+export interface ChangeReservationStatusData {
+    status: ReservationStatus;
+}
