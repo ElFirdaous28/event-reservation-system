@@ -24,6 +24,17 @@ export class ReservationsController {
     return this.reservationsService.findAll(req.user!.sub, isAdmin);
   }
 
+  @Get('my-reservations')
+  findMyReservations(@Req() req: Request) {
+    return this.reservationsService.findByUser(req.user!.sub);
+  }
+
+  @Get('event/:eventId')
+  findByEvent(@Param('eventId') eventId: string, @Req() req: Request) {
+    const isAdmin = req.user!.role === Role.ADMIN;
+    return this.reservationsService.findByEvent(eventId, isAdmin);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reservationsService.findOne(id);

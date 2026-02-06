@@ -77,6 +77,33 @@ export class ReservationsService {
     return reservation;
   }
 
+  async findByEvent(eventId: string, isAdmin: boolean): Promise<ReservationDocument[]> {
+    // Verify event exists
+    await this.eventsService.findOne(eventId);
+
+    const query: any = { event: eventId };
+    
+    // Non-admin users only see confirmed reservations
+    if (!isAdmin) {
+      query.status = ReservationStatus.CONFIRMED;
+    }
+
+    return this.reservationModel
+      .find(query)
+      .populate('user', 'fullName email')
+      .populate('event', 'title date location status capacity')
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+
+  async findByUser(userId: string): Promise<ReservationDocument[]> {
+    return this.reservationModel
+      .find({ user: userId })
+      .populate('event', 'title date location status capacity')
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+
   async changeStatus(
     id: string,
     changeStatusDto: ChangeReservationStatusDto,
