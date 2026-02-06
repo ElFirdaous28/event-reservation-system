@@ -90,6 +90,10 @@ export class EventsService {
       .populate('createdBy', 'fullName email')
       .exec();
     
+    if (!updatedEvent) {
+      throw new NotFoundException('Event not found');
+    }
+    
     return updatedEvent;
   }
 
