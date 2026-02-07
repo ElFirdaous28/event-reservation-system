@@ -3,6 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './users/users.module';
+import { EventsModule } from './events/events.module';
+import { ReservationsModule } from './reservations/reservations.module';
+import { AuthModule } from './auth/auth.module';
+import { SeederModule } from './seeders/seeder.module';
 
 @Module({
   imports: [
@@ -23,6 +28,16 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
+
+    UsersModule,
+
+    EventsModule,
+
+    ReservationsModule,
+
+    AuthModule,
+
+    SeederModule,
   ],
   controllers: [AppController],
   providers: [AppService],
