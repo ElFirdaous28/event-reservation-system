@@ -5,7 +5,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
 
       {/* Hero Section */}
       <main className="flex-1 flex flex-col items-center justify-center px-4">
@@ -33,7 +32,6 @@ export default function Home() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }
