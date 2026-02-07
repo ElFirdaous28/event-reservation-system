@@ -1,15 +1,8 @@
 import Link from 'next/link';
+import { format } from 'date-fns';
 import { Event } from '@repo/shared';
 
 type EventWithId = Event & { _id?: string };
-
-const formatDate = (date: Date | string) =>
-  new Date(date).toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 
 const getEventId = (event: EventWithId) => event._id ?? event.id;
 
@@ -60,7 +53,7 @@ export function EventCard({ event }: { event: EventWithId }) {
               </svg>
             }
           >
-            {formatDate(event.date)}
+            {format(new Date(event.date), 'EEEE, MMMM d, yyyy')}
           </EventMeta>
 
           <EventMeta
