@@ -1,25 +1,14 @@
-'use client';
-
-import { useEffect, useState } from "react";
-import { eventsApi } from "@/lib/api/events";
+import { EventsList } from '@/components/events';
+import { PageHeader } from '@/components/ui';
 
 export default function Page() {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const data = await eventsApi.getAllEvents();
-        console.log(data);
-        
-        setEvents(data.events);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  return <div>hiiiiiiiiiiiiiiiiii</div>;
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <PageHeader
+        title="Upcoming Events"
+        subtitle="Discover and register for upcoming events"
+      />
+      <EventsList />
+    </div>
+  );
 }

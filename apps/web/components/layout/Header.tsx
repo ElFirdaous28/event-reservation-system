@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Logo } from "../shared/Logo";
+import { Logo } from "../ui/Logo";
 import { Role } from "@repo/shared";
 
 export function Header() {

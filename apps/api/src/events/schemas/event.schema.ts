@@ -4,7 +4,7 @@ import { HydratedDocument, Types } from 'mongoose';
 import { User } from 'src/users/schemas/user.schema';
 
 @Schema({ timestamps: true })
-export class EventEntity {
+export class Event {
     @Prop({ required: true })
     title: string;
 
@@ -31,6 +31,6 @@ export class EventEntity {
     createdBy: Types.ObjectId;
 }
 
-export type EventDocument = HydratedDocument<EventEntity>;
+export type EventDocument = HydratedDocument<Event>;
 
-export const EventSchema = SchemaFactory.createForClass(EventEntity);
+export const EventSchema = SchemaFactory.createForClass(Event);

@@ -2,7 +2,7 @@ import { Injectable, BadRequestException, NotFoundException, ForbiddenException 
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { ReservationEntity, ReservationDocument } from './schemas/reservation.schema';
+import { Reservation, ReservationDocument } from './schemas/reservation.schema';
 import { Model } from 'mongoose';
 import { EventsService } from 'src/events/events.service';
 import { EventStatus, ReservationStatus } from '@repo/shared';
@@ -11,7 +11,7 @@ import { ChangeReservationStatusDto } from './dto/change-reservation-status.dto'
 @Injectable()
 export class ReservationsService {
   constructor(
-    @InjectModel(ReservationEntity.name) private reservationModel: Model<ReservationDocument>,
+    @InjectModel(Reservation.name) private reservationModel: Model<ReservationDocument>,
     private eventsService: EventsService,
   ) {}
 

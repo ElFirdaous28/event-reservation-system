@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/commo
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { EventEntity, EventDocument } from './schemas/event.schema';
+import { Event, EventDocument } from './schemas/event.schema';
 import { Model } from 'mongoose';
 import { EventStatus } from '@repo/shared';
 import { ChangeEventStatusDto } from './dto/change-event-status.dto';
@@ -10,7 +10,7 @@ import { ChangeEventStatusDto } from './dto/change-event-status.dto';
 @Injectable()
 export class EventsService {
   constructor(
-    @InjectModel(EventEntity.name) private eventModel: Model<EventDocument>,
+    @InjectModel(Event.name) private eventModel: Model<EventDocument>,
   ) {}
 
   async create(createEventDto: CreateEventDto, userId: string): Promise<EventDocument> {

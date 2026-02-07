@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Logo } from '@/components/shared/Logo';
+import { Logo } from '@/components/ui';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
