@@ -1,4 +1,5 @@
 import React from 'react';
+import { X } from 'lucide-react';
 
 interface ErrorAlertProps {
   title?: string;
@@ -46,8 +47,9 @@ export const ErrorAlert: React.FC<ErrorAlertProps> = ({
             style={{ color: 'var(--error)' }}
             onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.7')}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+            aria-label="Dismiss"
           >
-            ✕
+            <X className="h-4 w-4" />
           </button>
         )}
       </div>

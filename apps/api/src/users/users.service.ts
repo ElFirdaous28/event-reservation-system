@@ -19,11 +19,12 @@ export class UsersService {
     return createdUser.save();
   }
   findAll() {
-    return `This action returns all users`;
+    // return users without passwords
+    return this.userModel.find().select('-password').exec();
   }
 
   findOne(id: string) {
-    return this.userModel.findById(id).exec();
+    return this.userModel.findById(id).select('-password').exec();
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
