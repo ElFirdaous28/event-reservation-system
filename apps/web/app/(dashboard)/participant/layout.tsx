@@ -2,13 +2,13 @@
 
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { Role } from '@repo/shared';
-import { AdminSidebar } from '@/components/layout/AdminSidebar';
+import { ParticipantSidebar } from '@/components/layout/ParticipantSidebar';
 
-export default function AdminLayout({ children }) {
+export default function ParticipantLayout({ children }) {
     return (
-        <ProtectedRoute allowedRoles={[Role.ADMIN]}>
+        <ProtectedRoute allowedRoles={[Role.PARTICIPANT]}>
             <div className="flex min-h-screen bg-background">
-                <AdminSidebar />
+                <ParticipantSidebar />
                 <main className="flex-1 p-6">
                     {children}
                 </main>

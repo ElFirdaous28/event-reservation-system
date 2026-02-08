@@ -23,7 +23,8 @@ export function AdminSidebar() {
       </div>
       <nav className="p-4 space-y-2">
         {links.map((link) => {
-          const isActive = pathname === link.href || pathname?.startsWith(`${link.href}/`);
+          const isDashboard = link.href === '/admin';
+          const isActive = pathname === link.href || (!isDashboard && pathname?.startsWith(`${link.href}/`));
           return (
             <Link
               key={link.href}
