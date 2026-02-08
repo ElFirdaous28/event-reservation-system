@@ -7,6 +7,11 @@ export const reservationsApi = {
     return response.data;
   },
 
+  getStats: async () => {
+    const response = await apiClient.get('/reservations/stats/all');
+    return response.data;
+  },
+
   getMyReservations: async () => {
     const response = await apiClient.get('/reservations/my-reservations');
     return response.data;
@@ -34,6 +39,13 @@ export const reservationsApi = {
 
   delete: async (id: string) => {
     const response = await apiClient.delete(`/reservations/${id}`);
+    return response.data;
+  },
+
+  downloadTicket: async (id: string) => {
+    const response = await apiClient.get(`/reservations/${id}/ticket`, {
+      responseType: 'blob',
+    });
     return response.data;
   },
 };

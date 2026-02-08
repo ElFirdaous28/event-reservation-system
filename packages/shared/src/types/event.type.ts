@@ -2,12 +2,13 @@ import { EventStatus } from '../enums/event-status.enum';
 import { User } from './user.type';
 
 export type Event = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   date: Date;
   location: string;
   capacity: number;
+  availableSeats:number;
   status: EventStatus;
   createdBy: User
 };
@@ -18,6 +19,7 @@ export interface CreateEventDto {
   date: string;
   location: string;
   capacity: number;
+  availableSeats?: number;
 }
 
 export interface UpdateEventDto extends Partial<CreateEventDto> {}

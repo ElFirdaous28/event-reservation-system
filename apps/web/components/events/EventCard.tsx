@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { Event } from '@repo/shared';
 
-type EventWithId = Event & { _id?: string };
+type EventWithId = Event & { _id?: string; availableSeats?: number };
 
-const getEventId = (event: EventWithId) => event._id ?? event.id;
+const getEventId = (event: EventWithId) => event._id;
 
 function EventMeta({
   icon,
@@ -99,7 +99,7 @@ export function EventCard({ event }: { event: EventWithId }) {
               </svg>
             }
           >
-            {event.capacity} spots available
+            {typeof event.availableSeats === 'number' ? `${event.availableSeats} spots available` : `${event.capacity} spots available`}
           </EventMeta>
         </div>
 

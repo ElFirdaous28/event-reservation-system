@@ -7,9 +7,7 @@ export class CreateUserDto {
     @MinLength(6)
     password: string;
 
+    // Use fullName to match the User schema and shared types
     @IsNotEmpty()
-    firstName: string;
-
-    @IsNotEmpty()
-    lastName: string;
+    fullName: string;
 }

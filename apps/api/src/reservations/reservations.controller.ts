@@ -1,17 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Res } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 import { Role } from '@repo/shared';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { ChangeReservationStatusDto } from './dto/change-reservation-status.dto';
+import { TicketGeneratorService } from './services/ticket-generator.service';
 
 @Controller('reservations')
 @UseGuards(JwtAuthGuard)
 export class ReservationsController {
-  constructor(private readonly reservationsService: ReservationsService) {}
+  constructor(
+    private readonly reservationsService: ReservationsService,
+    private readonly ticketGeneratorService: TicketGeneratorService,
+  ) {}
 
   @Post()
   create(@Body() createReservationDto: CreateReservationDto, @Req() req: Request) {
@@ -27,6 +31,13 @@ export class ReservationsController {
   @Get('my-reservations')
   findMyReservations(@Req() req: Request) {
     return this.reservationsService.findByUser(req.user!.sub);
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('stats/all')
+  getStats() {
+    return this.reservationsService.getStats();
   }
 
   @Get('event/:eventId')
@@ -48,6 +59,33 @@ export class ReservationsController {
   ) {
     const isAdmin = req.user!.role === Role.ADMIN;
     return this.reservationsService.changeStatus(id, changeStatusDto, req.user!.sub, isAdmin);
+  }
+
+  @Get(':id/ticket')
+  async downloadTicket(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const reservation = await this.reservationsService.findOne(id);
+    
+    // Check if user is the reservation owner or admin
+    const isAdmin = req.user!.role === Role.ADMIN;
+    if (
+      !isAdmin &&
+      (reservation.user as any)._id.toString() !== req.user!.sub
+    ) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
+    const pdfBuffer = await this.ticketGeneratorService.generateTicketPDF(reservation);
+    
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="ticket-${id}.pdf"`,
+      'Content-Length': pdfBuffer.length,
+    });
+    res.end(pdfBuffer);
   }
 
   @UseGuards(RolesGuard)

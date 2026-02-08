@@ -11,7 +11,7 @@ export class UserSeeder {
 
   constructor(
     @InjectModel('User') private userModel: Model<UserDocument>,
-  ) {}
+  ) { }
 
   async seed() {
     const count = await this.userModel.countDocuments();
@@ -21,35 +21,37 @@ export class UserSeeder {
       return;
     }
 
+    const password = 'password';
+
     const users = [
       {
         fullName: 'Admin User',
         email: 'admin@example.com',
-        password: 'Admin@123456',
+        password: password,
         role: Role.ADMIN,
       },
       {
         fullName: 'Jane Smith',
         email: 'jane@example.com',
-        password: 'User@123456',
+        password: password,
         role: Role.PARTICIPANT,
       },
       {
         fullName: 'John Doe',
         email: 'john@example.com',
-        password: 'User@123456',
+        password: password,
         role: Role.PARTICIPANT,
       },
       {
         fullName: 'Alice Johnson',
         email: 'alice@example.com',
-        password: 'User@123456',
+        password: password,
         role: Role.PARTICIPANT,
       },
       {
         fullName: 'Bob Wilson',
         email: 'bob@example.com',
-        password: 'User@123456',
+        password: password,
         role: Role.PARTICIPANT,
       },
     ];
@@ -62,7 +64,6 @@ export class UserSeeder {
         password: hashedPassword,
       });
 
-      this.logger.log(`Created user: ${user.email}`);
     }
 
     this.logger.log(`Total users seeded: ${users.length}`);

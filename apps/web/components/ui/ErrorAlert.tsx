@@ -1,19 +1,22 @@
 import React from 'react';
+import { X } from 'lucide-react';
 
 interface ErrorAlertProps {
   title?: string;
   message: string;
   onDismiss?: () => void;
+  className?: string;
 }
 
 export const ErrorAlert: React.FC<ErrorAlertProps> = ({
   title = 'Error',
   message,
   onDismiss,
+  className = '',
 }) => {
   return (
     <div
-      className="border border-error/30 rounded-lg p-4 mb-4"
+      className={`border border-error/30 rounded-lg p-4 mb-4 ${className}`}
       style={{ backgroundColor: 'color-mix(in srgb, var(--error) 10%, transparent)' }}
     >
       <div className="flex">
@@ -46,8 +49,9 @@ export const ErrorAlert: React.FC<ErrorAlertProps> = ({
             style={{ color: 'var(--error)' }}
             onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.7')}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+            aria-label="Dismiss"
           >
-            ✕
+            <X className="h-4 w-4" />
           </button>
         )}
       </div>

@@ -3,7 +3,7 @@ import { User } from './user.type';
 import { Event } from './event.type';
 
 export type SafeReservation = {
-    id: string;
+    _id: string;
     user: User;
     event: Event;
     status: ReservationStatus;

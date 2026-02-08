@@ -15,7 +15,8 @@ import { SeederModule } from './seeders/seeder.module';
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
       validate: (env) => {
-        if (!env.JWT_SECRET) throw new Error('JWT_SECRET missing');
+        if (!env.JWT_ACCESS_SECRET) throw new Error('JWT_ACCESS_SECRET missing');
+        if (!env.JWT_REFRESH_SECRET) throw new Error('JWT_REFRESH_SECRET missing');
         if (!env.MONGO_URI) throw new Error('MONGO_URI missing');
         return env;
       },

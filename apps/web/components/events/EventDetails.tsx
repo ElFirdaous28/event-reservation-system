@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { Event } from '@repo/shared';
+import { Event, ReservationStatus } from '@repo/shared';
 import { eventsApi } from '@/lib/api/events';
+import { reservationsApi } from '@/lib/api/reservations';
 import { ErrorAlert, Skeleton } from '@/components/ui';
+import { ReservationButton } from './ReservationButton';
 
-type EventWithId = Event & { _id?: string };
+type EventWithId = Event & { _id?: string; availableSeats?: number };
 
 type EventDetailsProps = {
   id: string;
@@ -32,23 +34,25 @@ export function EventDetails({ id }: EventDetailsProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        setLoading(true);
-        const data = await eventsApi.getOne(id);
-        const resolvedEvent = (data?.event ?? data) as EventWithId;
-        setEvent(resolvedEvent);
-      } catch (err) {
-        console.error('Error fetching event:', err);
-        setError('Failed to load event details. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchEventData = async () => {
+    try {
+      setLoading(true);
+      
+      // Fetch event details
+      const eventData = await eventsApi.getOne(id);
+      const resolvedEvent = (eventData?.event ?? eventData) as EventWithId;
+      setEvent(resolvedEvent);
+    } catch (err) {
+      console.error('Error fetching event:', err);
+      setError('Failed to load event details. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (id) {
-      fetchEvent();
+      fetchEventData();
     }
   }, [id]);
 
@@ -97,8 +101,17 @@ export function EventDetails({ id }: EventDetailsProps) {
 
       <div className="mt-6 space-y-3">
         <DetailRow label="Location" value={event.location} />
-        <DetailRow label="Capacity" value={`${event.capacity} spots`} />
+        <DetailRow label="Total Capacity" value={`${event.capacity} spots`} />
+        <DetailRow 
+          label="Available Seats" 
+          value={typeof event.availableSeats === 'number' ? `${event.availableSeats} spots` : `${event.capacity} spots`}
+        />
       </div>
+
+      <ReservationButton 
+        event={event} 
+        onSuccess={fetchEventData}
+      />
     </div>
   );
 }

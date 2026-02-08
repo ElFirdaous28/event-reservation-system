@@ -3,8 +3,8 @@ import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 import { Role, EventStatus } from '@repo/shared';
 import { Request } from 'express';
 import { ChangeEventStatusDto } from './dto/change-event-status.dto';
@@ -16,7 +16,7 @@ export class EventsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Post()
-  create(@Body() createEventDto: CreateEventDto, @Req() req: Request) {
+  create(@Body() createEventDto: CreateEventDto, @Req() req: Request) {    
     return this.eventsService.create(createEventDto, req.user!.sub);
   }
 
@@ -38,6 +38,24 @@ export class EventsController {
       },
       isAdmin,
     );
+  }
+
+  @Get('my-events')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  findMyEvents(
+    @Query('status') status?: EventStatus,
+    @Query('search') search?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+    @Req() req?: Request,
+  ) {
+    return this.eventsService.findByCreator(req!.user!.sub, {
+      status,
+      search,
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+    });
   }
 
   @Get(':id')
