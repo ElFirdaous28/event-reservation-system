@@ -3,26 +3,25 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Event, EventDocument } from './schemas/event.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { EventStatus } from '@repo/shared';
 import { ChangeEventStatusDto } from './dto/change-event-status.dto';
-
 @Injectable()
 export class EventsService {
   constructor(
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
-  ) {}
+  ) { }
 
   async create(createEventDto: CreateEventDto, userId: string): Promise<EventDocument> {
     const newEvent = new this.eventModel({
       ...createEventDto,
-      createdBy: userId,
+      createdBy: new Types.ObjectId(userId),
       status: EventStatus.DRAFT,
     });
     return newEvent.save();
   }
 
-  async findAll(filters?: { 
+  async findAll(filters?: {
     status?: EventStatus;
     search?: string;
     page?: number;
@@ -79,7 +78,9 @@ export class EventsService {
     const limit = filters?.limit || 10;
     const skip = (page - 1) * limit;
 
-    const query: any = { createdBy: userId };
+    const query: any = {
+      createdBy: { $in: [new Types.ObjectId(userId), userId] },
+    };
 
     // Filter by status if provided
     if (filters?.status) {
@@ -124,7 +125,7 @@ export class EventsService {
 
   async update(id: string, updateEventDto: UpdateEventDto, userId: string): Promise<EventDocument> {
     const event = await this.findOne(id);
-    
+
     // Check if user is the creator
     if (event.createdBy._id.toString() !== userId) {
       throw new ForbiddenException('You can only update events you created');
@@ -134,17 +135,17 @@ export class EventsService {
       .findByIdAndUpdate(id, updateEventDto, { new: true })
       .populate('createdBy', 'fullName email')
       .exec();
-    
+
     if (!updatedEvent) {
       throw new NotFoundException('Event not found');
     }
-    
+
     return updatedEvent;
   }
 
   async changeStatus(id: string, changeStatusDto: ChangeEventStatusDto, userId: string): Promise<EventDocument> {
     const event = await this.findOne(id);
-    
+
     // Check if user is the creator
     if (event.createdBy._id.toString() !== userId) {
       throw new ForbiddenException('You can only change status of events you created');
@@ -156,7 +157,7 @@ export class EventsService {
 
   async remove(id: string, userId: string): Promise<void> {
     const event = await this.findOne(id);
-    
+
     // Check if user is the creator
     if (event.createdBy._id.toString() !== userId) {
       throw new ForbiddenException('You can only delete events you created');

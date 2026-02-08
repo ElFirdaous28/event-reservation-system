@@ -16,7 +16,7 @@ export class EventsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Post()
-  create(@Body() createEventDto: CreateEventDto, @Req() req: Request) {
+  create(@Body() createEventDto: CreateEventDto, @Req() req: Request) {    
     return this.eventsService.create(createEventDto, req.user!.sub);
   }
 
