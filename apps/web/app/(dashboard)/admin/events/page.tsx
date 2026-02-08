@@ -8,9 +8,6 @@ import { eventsApi } from '@/lib/api/events';
 import { EmptyState, ErrorAlert, LoadingSpinner, PageHeader } from '@/components/ui';
 import StatusBadge from '@/components/events/admin/StatusBadge';
 
-type EventWithId = Event & { _id?: string };
-
-const getEventId = (event: EventWithId) => event._id ?? event.id;
 
 export default function Page() {
   const [search, setSearch] = useState('');
@@ -140,15 +137,15 @@ export default function Page() {
                   <th className="px-4 py-3 font-medium">Date</th>
                   <th className="px-4 py-3 font-medium">Location</th>
                   <th className="px-4 py-3 font-medium">Capacity</th>
+                  <th className="px-4 py-3 font-medium">Available</th>
                   <th className="px-4 py-3 font-medium">Status</th>
                   <th className="px-4 py-3 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {data.events.map((event) => {
-                  const eventId = getEventId(event as EventWithId);
                   return (
-                    <tr key={eventId} className="border-b border-border last:border-b-0">
+                    <tr key={event._id} className="border-b border-border last:border-b-0">
                       <td className="px-4 py-3 font-medium text-foreground">
                         {event.title}
                       </td>
@@ -157,13 +154,14 @@ export default function Page() {
                       </td>
                       <td className="px-4 py-3 text-muted">{event.location}</td>
                       <td className="px-4 py-3 text-muted">{event.capacity}</td>
+                      <td className="px-4 py-3 text-muted">{typeof (event as any).availableSeats === 'number' ? (event as any).availableSeats : event.capacity}</td>
                       <td className="px-4 py-3">
                         <StatusBadge status={event.status} />
                       </td>
                       <td className="px-4 py-3">
-                        {eventId ? (
+                        {event._id ? (
                           <Link
-                            href={`/admin/events/${eventId}`}
+                            href={`/admin/events/${event._id}`}
                             className="text-primary hover:underline"
                           >
                             Edit

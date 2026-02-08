@@ -5,16 +5,18 @@ interface ErrorAlertProps {
   title?: string;
   message: string;
   onDismiss?: () => void;
+  className?: string;
 }
 
 export const ErrorAlert: React.FC<ErrorAlertProps> = ({
   title = 'Error',
   message,
   onDismiss,
+  className = '',
 }) => {
   return (
     <div
-      className="border border-error/30 rounded-lg p-4 mb-4"
+      className={`border border-error/30 rounded-lg p-4 mb-4 ${className}`}
       style={{ backgroundColor: 'color-mix(in srgb, var(--error) 10%, transparent)' }}
     >
       <div className="flex">

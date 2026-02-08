@@ -29,6 +29,13 @@ export class ReservationsController {
     return this.reservationsService.findByUser(req.user!.sub);
   }
 
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('stats/all')
+  getStats() {
+    return this.reservationsService.getStats();
+  }
+
   @Get('event/:eventId')
   findByEvent(@Param('eventId') eventId: string, @Req() req: Request) {
     const isAdmin = req.user!.role === Role.ADMIN;

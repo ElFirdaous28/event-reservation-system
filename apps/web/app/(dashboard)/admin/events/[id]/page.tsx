@@ -9,16 +9,14 @@ import { ErrorAlert, LoadingSpinner, PageHeader } from '@/components/ui';
 import EventForm from '@/components/events/admin/EventForm';
 import StatusBadge from '@/components/events/admin/StatusBadge';
 
-type EventWithId = Event & { _id?: string };
 
-const getEventId = (event: EventWithId) => event._id ?? event.id;
 
 export default function Page() {
   const params = useParams();
   const router = useRouter();
   const eventId = useMemo(() => params?.id as string, [params]);
 
-  const [event, setEvent] = useState<EventWithId | null>(null);
+  const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [statusLoading, setStatusLoading] = useState(false);
@@ -101,7 +99,6 @@ export default function Page() {
   }
 
   const dateValue = format(new Date(event.date), 'yyyy-MM-dd');
-  const currentId = getEventId(event);
 
   return (
     <div className="max-w-3xl space-y-6">

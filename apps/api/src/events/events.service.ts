@@ -15,6 +15,7 @@ export class EventsService {
   async create(createEventDto: CreateEventDto, userId: string): Promise<EventDocument> {
     const newEvent = new this.eventModel({
       ...createEventDto,
+      availableSeats: createEventDto.availableSeats ?? createEventDto.capacity,
       createdBy: new Types.ObjectId(userId),
       status: EventStatus.DRAFT,
     });

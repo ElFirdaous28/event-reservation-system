@@ -7,11 +7,13 @@ import { Model } from 'mongoose';
 import { EventsService } from 'src/events/events.service';
 import { EventStatus, ReservationStatus } from '@repo/shared';
 import { ChangeReservationStatusDto } from './dto/change-reservation-status.dto';
+import { Event, EventDocument } from 'src/events/schemas/event.schema';
 
 @Injectable()
 export class ReservationsService {
   constructor(
     @InjectModel(Reservation.name) private reservationModel: Model<ReservationDocument>,
+    @InjectModel(Event.name) private eventModel: Model<EventDocument>,
     private eventsService: EventsService,
   ) {}
 
@@ -111,6 +113,8 @@ export class ReservationsService {
     isAdmin: boolean,
   ): Promise<ReservationDocument> {
     const reservation = await this.findOne(id);
+    const oldStatus = reservation.status;
+    const newStatus = changeStatusDto.status;
 
     // Participants can only cancel their own reservations
     if (!isAdmin) {
@@ -122,8 +126,28 @@ export class ReservationsService {
       }
     }
 
+    // Update availableSeats based on status change
+    const eventId = reservation.event._id.toString();
+    let seatsAdjustment = 0;
+
+    // If changing FROM CONFIRMED, increase availableSeats
+    if (oldStatus === ReservationStatus.CONFIRMED && newStatus !== ReservationStatus.CONFIRMED) {
+      seatsAdjustment = 1;
+    }
+    // If changing TO CONFIRMED from another status, decrease availableSeats
+    else if (oldStatus !== ReservationStatus.CONFIRMED && newStatus === ReservationStatus.CONFIRMED) {
+      seatsAdjustment = -1;
+    }
+
+    if (seatsAdjustment !== 0) {
+      await this.eventModel.updateOne(
+        { _id: eventId },
+        { $inc: { availableSeats: seatsAdjustment } },
+      ).exec();
+    }
+
     // Admin can change to any status
-    reservation.status = changeStatusDto.status;
+    reservation.status = newStatus;
     return reservation.save();
   }
 
@@ -136,5 +160,29 @@ export class ReservationsService {
     }
 
     await this.reservationModel.findByIdAndDelete(id).exec();
+  }
+
+  async getStats() {
+    const total = await this.reservationModel.countDocuments().exec();
+    const pending = await this.reservationModel
+      .countDocuments({ status: ReservationStatus.PENDING })
+      .exec();
+    const confirmed = await this.reservationModel
+      .countDocuments({ status: ReservationStatus.CONFIRMED })
+      .exec();
+    const refused = await this.reservationModel
+      .countDocuments({ status: ReservationStatus.REFUSED })
+      .exec();
+    const canceled = await this.reservationModel
+      .countDocuments({ status: ReservationStatus.CANCELED })
+      .exec();
+
+    return {
+      total,
+      pending,
+      confirmed,
+      refused,
+      canceled,
+    };
   }
 }

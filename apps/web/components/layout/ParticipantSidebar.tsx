@@ -10,7 +10,7 @@ export function ParticipantSidebar() {
 
   const links = [
     { href: '/participant', label: 'Dashboard', icon: Home },
-    { href: '/participant/events', label: 'Browse Events', icon: PartyPopper },
+    { href: '/events', label: 'Browse Events', icon: PartyPopper },
     { href: '/participant/my-reservations', label: 'My Reservations', icon: Ticket },
     { href: '/profile', label: 'Profile', icon: User },
   ];

@@ -20,6 +20,9 @@ export class Event {
     @Prop({ required: true, min: 1 })
     capacity: number;
 
+    @Prop({ required: true, min: 0 })
+    availableSeats: number;
+
     @Prop({
         type: String,
         enum: EventStatus,
