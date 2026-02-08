@@ -5,6 +5,7 @@ import { ReservationStatus, SafeReservation } from '@repo/shared';
 import { useState } from 'react';
 import { reservationsApi } from '@/lib/api/reservations';
 import Link from 'next/link';
+import { Download } from 'lucide-react';
 
 
 type ReservationCardProps = {
@@ -33,6 +34,7 @@ const statusConfig = {
 
 export function ReservationCard({ reservation, onUpdate }: ReservationCardProps) {
     const [canceling, setCanceling] = useState(false);
+    const [downloading, setDownloading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const canCancel =
@@ -56,6 +58,29 @@ export function ReservationCard({ reservation, onUpdate }: ReservationCardProps)
             setError(err?.response?.data?.message || 'Failed to cancel reservation');
         } finally {
             setCanceling(false);
+        }
+    };
+
+    const handleDownloadTicket = async () => {
+        try {
+            setDownloading(true);
+            setError(null);
+            const pdfBlob = await reservationsApi.downloadTicket(reservation._id);
+            
+            // Create a download link
+            const url = window.URL.createObjectURL(pdfBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `ticket-${reservation._id}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        } catch (err: any) {
+            console.error('Error downloading ticket:', err);
+            setError(err?.response?.data?.message || 'Failed to download ticket');
+        } finally {
+            setDownloading(false);
         }
     };
 
@@ -144,6 +169,14 @@ export function ReservationCard({ reservation, onUpdate }: ReservationCardProps)
             )}
 
             <div className="flex gap-3">
+                <button
+                    onClick={handleDownloadTicket}
+                    disabled={downloading}
+                    className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                    <Download className="w-4 h-4" />
+                    {downloading ? 'Downloading...' : 'Download Ticket'}
+                </button>
                 <Link
                     href={`/participant/events`}
                     className="flex-1 text-center px-4 py-2 border border-border rounded-lg text-foreground hover:bg-gray-50 transition-colors"

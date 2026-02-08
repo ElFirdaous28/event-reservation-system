@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Reservation, ReservationSchema } from './schemas/reservation.schema';
 import { EventsModule } from 'src/events/events.module';
 import { Event, EventSchema } from 'src/events/schemas/event.schema';
+import { TicketGeneratorService } from './services/ticket-generator.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { Event, EventSchema } from 'src/events/schemas/event.schema';
     EventsModule,
   ],
   controllers: [ReservationsController],
-  providers: [ReservationsService],
+  providers: [ReservationsService, TicketGeneratorService],
 })
 export class ReservationsModule {}

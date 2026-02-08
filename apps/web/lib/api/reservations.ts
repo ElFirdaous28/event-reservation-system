@@ -41,4 +41,11 @@ export const reservationsApi = {
     const response = await apiClient.delete(`/reservations/${id}`);
     return response.data;
   },
+
+  downloadTicket: async (id: string) => {
+    const response = await apiClient.get(`/reservations/${id}/ticket`, {
+      responseType: 'blob',
+    });
+    return response.data;
+  },
 };
