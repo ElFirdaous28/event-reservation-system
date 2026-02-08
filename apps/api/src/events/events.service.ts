@@ -69,6 +69,51 @@ export class EventsService {
     };
   }
 
+  async findByCreator(userId: string, filters?: {
+    status?: EventStatus;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }): Promise<{ events: EventDocument[]; total: number; page: number; totalPages: number }> {
+    const page = filters?.page || 1;
+    const limit = filters?.limit || 10;
+    const skip = (page - 1) * limit;
+
+    const query: any = { createdBy: userId };
+
+    // Filter by status if provided
+    if (filters?.status) {
+      query.status = filters.status;
+    }
+
+    // Search filter (title, description, location)
+    if (filters?.search) {
+      query.$or = [
+        { title: { $regex: filters.search, $options: 'i' } },
+        { description: { $regex: filters.search, $options: 'i' } },
+        { location: { $regex: filters.search, $options: 'i' } },
+      ];
+    }
+
+    const [events, total] = await Promise.all([
+      this.eventModel
+        .find(query)
+        .populate('createdBy', 'fullName email')
+        .sort({ date: 1 })
+        .skip(skip)
+        .limit(limit)
+        .exec(),
+      this.eventModel.countDocuments(query).exec(),
+    ]);
+
+    return {
+      events,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+
   async findOne(id: string): Promise<EventDocument> {
     const event = await this.eventModel.findById(id).populate('createdBy', 'fullName email').exec();
     if (!event) {
@@ -81,7 +126,7 @@ export class EventsService {
     const event = await this.findOne(id);
     
     // Check if user is the creator
-    if (event.createdBy.toString() !== userId) {
+    if (event.createdBy._id.toString() !== userId) {
       throw new ForbiddenException('You can only update events you created');
     }
 
@@ -101,7 +146,7 @@ export class EventsService {
     const event = await this.findOne(id);
     
     // Check if user is the creator
-    if (event.createdBy.toString() !== userId) {
+    if (event.createdBy._id.toString() !== userId) {
       throw new ForbiddenException('You can only change status of events you created');
     }
 
@@ -113,7 +158,7 @@ export class EventsService {
     const event = await this.findOne(id);
     
     // Check if user is the creator
-    if (event.createdBy.toString() !== userId) {
+    if (event.createdBy._id.toString() !== userId) {
       throw new ForbiddenException('You can only delete events you created');
     }
 

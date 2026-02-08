@@ -114,7 +114,7 @@ export class ReservationsService {
 
     // Participants can only cancel their own reservations
     if (!isAdmin) {
-      if (reservation.user.toString() !== userId) {
+      if (reservation.user._id.toString() !== userId) {
         throw new ForbiddenException('You can only manage your own reservations');
       }
       if (changeStatusDto.status !== ReservationStatus.CANCELED) {
@@ -131,7 +131,7 @@ export class ReservationsService {
     const reservation = await this.findOne(id);
 
     // Only admin or owner can delete
-    if (!isAdmin && reservation.user.toString() !== userId) {
+    if (!isAdmin && reservation.user._id.toString() !== userId) {
       throw new ForbiddenException('You can only delete your own reservations');
     }
 

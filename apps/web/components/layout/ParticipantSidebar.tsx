@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, PartyPopper, Ticket, User } from 'lucide-react';
+import LogoutButton from './LogoutButton';
 
 export function ParticipantSidebar() {
   const pathname = usePathname();
@@ -15,7 +16,7 @@ export function ParticipantSidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-surface border-r border-border min-h-screen">
+    <aside className="w-64 bg-surface border-r border-border min-h-screen flex flex-col">
       <div className="p-4 border-b border-border">
         <h2 className="text-lg font-semibold text-foreground">My Dashboard</h2>
       </div>
@@ -38,6 +39,9 @@ export function ParticipantSidebar() {
           );
         })}
       </nav>
+      <div className="mt-auto p-4 border-t border-border">
+        <LogoutButton />
+      </div>
     </aside>
   );
 }

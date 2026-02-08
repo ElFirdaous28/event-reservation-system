@@ -19,6 +19,17 @@ export const eventsApi = {
     return response.data;
   },
 
+  getMyEvents: async (filters?: EventFilters): Promise<EventsResponse> => {
+    const params = new URLSearchParams();
+    if (filters?.status) params.append('status', filters.status);
+    if (filters?.search) params.append('search', filters.search);
+    if (filters?.page) params.append('page', filters.page.toString());
+    if (filters?.limit) params.append('limit', filters.limit.toString());
+
+    const response = await apiClient.get(`/events/my-events?${params.toString()}`);
+    return response.data;
+  },
+
   getOne: async (id: string) => {
     const response = await apiClient.get(`/events/${id}`);
     return response.data;

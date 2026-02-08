@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CalendarDays, LayoutDashboard, Settings, Ticket, Users } from 'lucide-react';
+import LogoutButton from './LogoutButton';
 
 export function AdminSidebar() {
   const pathname = usePathname();
@@ -16,7 +17,7 @@ export function AdminSidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-surface border-r border-border min-h-screen">
+    <aside className="w-64 bg-surface border-r border-border min-h-screen flex flex-col">
       <div className="p-4 border-b border-border">
         <h2 className="text-lg font-semibold text-foreground">Admin Panel</h2>
       </div>
@@ -39,6 +40,9 @@ export function AdminSidebar() {
           );
         })}
       </nav>
+      <div className="mt-auto p-4 border-t border-border">
+        <LogoutButton />
+      </div>
     </aside>
   );
 }

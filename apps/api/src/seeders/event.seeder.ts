@@ -80,7 +80,6 @@ export class EventSeeder {
 
     for (const event of events) {
       await this.eventModel.create(event);
-      this.logger.log(`Created event: ${event.title}`);
     }
 
     this.logger.log(`Total events seeded: ${events.length}`);

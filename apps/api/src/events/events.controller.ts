@@ -40,6 +40,24 @@ export class EventsController {
     );
   }
 
+  @Get('my-events')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  findMyEvents(
+    @Query('status') status?: EventStatus,
+    @Query('search') search?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+    @Req() req?: Request,
+  ) {
+    return this.eventsService.findByCreator(req!.user!.sub, {
+      status,
+      search,
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+    });
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);
