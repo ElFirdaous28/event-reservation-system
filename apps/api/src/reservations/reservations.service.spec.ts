@@ -1,6 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Types } from 'mongoose';
 import { ReservationsService } from './reservations.service';
 import { EventsService } from 'src/events/events.service';
@@ -201,12 +205,14 @@ describe('ReservationsService', () => {
         user: { _id: new Types.ObjectId(userId) },
         event: { _id: new Types.ObjectId(eventId) },
         status: ReservationStatus.PENDING,
-        save: jest.fn().mockResolvedValue(
-          { status: ReservationStatus.CONFIRMED } as any,
-        ),
+        save: jest
+          .fn()
+          .mockResolvedValue({ status: ReservationStatus.CONFIRMED } as any),
       } as any;
 
-      const findOneSpy = jest.spyOn(service, 'findOne').mockResolvedValue(reservation);
+      const findOneSpy = jest
+        .spyOn(service, 'findOne')
+        .mockResolvedValue(reservation);
       eventModelMock.updateOne.mockReturnValue({
         exec: jest.fn().mockResolvedValue({ modifiedCount: 1 }),
       });

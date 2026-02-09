@@ -11,7 +11,8 @@ export class ReservationSeeder {
   private readonly logger = new Logger(ReservationSeeder.name);
 
   constructor(
-    @InjectModel('Reservation') private reservationModel: Model<ReservationDocument>,
+    @InjectModel('Reservation')
+    private reservationModel: Model<ReservationDocument>,
     @InjectModel('User') private userModel: Model<UserDocument>,
     @InjectModel('Event') private eventModel: Model<EventDocument>,
   ) {}
@@ -34,7 +35,9 @@ export class ReservationSeeder {
     const events = await this.eventModel.find({}).limit(3);
 
     if (!jane || !john || !alice || !bob || events.length === 0) {
-      this.logger.error('Users or events not found. Run user and event seeders first.');
+      this.logger.error(
+        'Users or events not found. Run user and event seeders first.',
+      );
       return;
     }
 
@@ -74,7 +77,7 @@ export class ReservationSeeder {
     for (const reservation of reservations) {
       await this.reservationModel.create(reservation);
       this.logger.log(
-        `Created reservation: user ${reservation.user} for event ${reservation.event}`,
+        `Created reservation: user ${reservation.user.toString()} for event ${reservation.event.toString()}`,
       );
     }
 

@@ -9,9 +9,7 @@ import { UserDocument } from '../users/schemas/user.schema';
 export class UserSeeder {
   private readonly logger = new Logger(UserSeeder.name);
 
-  constructor(
-    @InjectModel('User') private userModel: Model<UserDocument>,
-  ) { }
+  constructor(@InjectModel('User') private userModel: Model<UserDocument>) {}
 
   async seed() {
     const count = await this.userModel.countDocuments();
@@ -63,7 +61,6 @@ export class UserSeeder {
         ...user,
         password: hashedPassword,
       });
-
     }
 
     this.logger.log(`Total users seeded: ${users.length}`);

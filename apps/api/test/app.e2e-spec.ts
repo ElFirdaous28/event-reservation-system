@@ -28,7 +28,7 @@ describe('AppController (e2e)', () => {
   });
 
   afterEach(async () => {
-    // clear collections 
+    // clear collections
     const collections = connection.collections;
     for (const key in collections) {
       await collections[key].deleteMany({});

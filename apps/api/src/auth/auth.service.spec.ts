@@ -1,9 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
-import {
-  UnauthorizedException,
-  ConflictException,
-} from '@nestjs/common';
+import { UnauthorizedException, ConflictException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 
@@ -64,7 +61,9 @@ describe('AuthService', () => {
       const email = 'test@example.com';
       const password = 'password123';
 
-      jest.spyOn(usersService, 'findByEmail').mockResolvedValue(mockUser as any);
+      jest
+        .spyOn(usersService, 'findByEmail')
+        .mockResolvedValue(mockUser as any);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
       const result = await service.validateUser(email, password);
@@ -89,7 +88,9 @@ describe('AuthService', () => {
       const email = 'test@example.com';
       const password = 'wrongpassword';
 
-      jest.spyOn(usersService, 'findByEmail').mockResolvedValue(mockUser as any);
+      jest
+        .spyOn(usersService, 'findByEmail')
+        .mockResolvedValue(mockUser as any);
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       await expect(service.validateUser(email, password)).rejects.toThrow(
@@ -101,7 +102,9 @@ describe('AuthService', () => {
       const email = 'test@example.com';
       const password = 'password123';
 
-      jest.spyOn(usersService, 'findByEmail').mockResolvedValue(mockUser as any);
+      jest
+        .spyOn(usersService, 'findByEmail')
+        .mockResolvedValue(mockUser as any);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
       const result = await service.validateUser(email, password);
@@ -113,7 +116,9 @@ describe('AuthService', () => {
       const email = 'test@example.com';
       const password = 'password123';
 
-      jest.spyOn(usersService, 'findByEmail').mockResolvedValue(mockUser as any);
+      jest
+        .spyOn(usersService, 'findByEmail')
+        .mockResolvedValue(mockUser as any);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
       await service.validateUser(email, password);
@@ -214,9 +219,7 @@ describe('AuthService', () => {
         refreshToken: 'refresh_token',
       };
 
-      jest
-        .spyOn(service, 'generateTokens')
-        .mockResolvedValue(mockTokens);
+      jest.spyOn(service, 'generateTokens').mockResolvedValue(mockTokens);
 
       const result = await service.login(user);
 
@@ -236,13 +239,13 @@ describe('AuthService', () => {
       const createdUser = { ...createUserDto, _id: 'new_id' };
 
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
-      jest
-        .spyOn(usersService, 'create')
-        .mockResolvedValue(createdUser as any);
+      jest.spyOn(usersService, 'create').mockResolvedValue(createdUser as any);
 
       const result = await service.register(createUserDto);
 
-      expect(usersService.findByEmail).toHaveBeenCalledWith(createUserDto.email);
+      expect(usersService.findByEmail).toHaveBeenCalledWith(
+        createUserDto.email,
+      );
       expect(usersService.create).toHaveBeenCalledWith(createUserDto);
       expect(result).toEqual(createdUser);
     });
@@ -272,9 +275,7 @@ describe('AuthService', () => {
       };
 
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
-      jest
-        .spyOn(usersService, 'create')
-        .mockRejectedValue({ code: 11000 });
+      jest.spyOn(usersService, 'create').mockRejectedValue({ code: 11000 });
 
       await expect(service.register(createUserDto)).rejects.toThrow(
         ConflictException,
@@ -291,13 +292,9 @@ describe('AuthService', () => {
       const otherError = new Error('Some other error');
 
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
-      jest
-        .spyOn(usersService, 'create')
-        .mockRejectedValue(otherError);
+      jest.spyOn(usersService, 'create').mockRejectedValue(otherError);
 
-      await expect(service.register(createUserDto)).rejects.toThrow(
-        otherError,
-      );
+      await expect(service.register(createUserDto)).rejects.toThrow(otherError);
     });
   });
 
@@ -313,15 +310,11 @@ describe('AuthService', () => {
         refreshToken: 'new_refresh_token',
       };
 
-      jest
-        .spyOn(jwtService, 'verify')
-        .mockReturnValue(payload as any);
+      jest.spyOn(jwtService, 'verify').mockReturnValue(payload as any);
       jest
         .spyOn(usersService, 'findByEmail')
         .mockResolvedValue(mockUser as any);
-      jest
-        .spyOn(service, 'generateTokens')
-        .mockResolvedValue(mockNewTokens);
+      jest.spyOn(service, 'generateTokens').mockResolvedValue(mockNewTokens);
 
       const result = await service.refreshTokens(refreshToken);
 
@@ -338,11 +331,9 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException if refresh token is invalid', async () => {
       const refreshToken = 'invalid_token';
 
-      jest
-        .spyOn(jwtService, 'verify')
-        .mockImplementation(() => {
-          throw new Error('Invalid token');
-        });
+      jest.spyOn(jwtService, 'verify').mockImplementation(() => {
+        throw new Error('Invalid token');
+      });
 
       await expect(service.refreshTokens(refreshToken)).rejects.toThrow(
         UnauthorizedException,
@@ -355,12 +346,8 @@ describe('AuthService', () => {
         email: 'nonexistent@example.com',
       };
 
-      jest
-        .spyOn(jwtService, 'verify')
-        .mockReturnValue(payload as any);
-      jest
-        .spyOn(usersService, 'findByEmail')
-        .mockResolvedValue(null);
+      jest.spyOn(jwtService, 'verify').mockReturnValue(payload as any);
+      jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
 
       await expect(service.refreshTokens(refreshToken)).rejects.toThrow(
         UnauthorizedException,
@@ -373,18 +360,14 @@ describe('AuthService', () => {
 
       delete process.env.JWT_REFRESH_SECRET;
 
-      jest
-        .spyOn(jwtService, 'verify')
-        .mockReturnValue(payload as any);
+      jest.spyOn(jwtService, 'verify').mockReturnValue(payload as any);
       jest
         .spyOn(usersService, 'findByEmail')
         .mockResolvedValue(mockUser as any);
-      jest
-        .spyOn(service, 'generateTokens')
-        .mockResolvedValue({
-          accessToken: 'token',
-          refreshToken: 'token',
-        });
+      jest.spyOn(service, 'generateTokens').mockResolvedValue({
+        accessToken: 'token',
+        refreshToken: 'token',
+      });
 
       await service.refreshTokens(refreshToken);
 

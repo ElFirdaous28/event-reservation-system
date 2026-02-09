@@ -1,6 +1,10 @@
-import { Injectable, BadRequestException, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { CreateReservationDto } from './dto/create-reservation.dto';
-import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Reservation, ReservationDocument } from './schemas/reservation.schema';
 import { Model } from 'mongoose';
@@ -12,17 +16,25 @@ import { Event, EventDocument } from 'src/events/schemas/event.schema';
 @Injectable()
 export class ReservationsService {
   constructor(
-    @InjectModel(Reservation.name) private reservationModel: Model<ReservationDocument>,
+    @InjectModel(Reservation.name)
+    private reservationModel: Model<ReservationDocument>,
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
     private eventsService: EventsService,
   ) {}
 
-  async create(createReservationDto: CreateReservationDto, userId: string): Promise<ReservationDocument> {
-    const event = await this.eventsService.findOne(createReservationDto.eventId);
+  async create(
+    createReservationDto: CreateReservationDto,
+    userId: string,
+  ): Promise<ReservationDocument> {
+    const event = await this.eventsService.findOne(
+      createReservationDto.eventId,
+    );
 
     // Check if event is published
     if (event.status !== EventStatus.PUBLISHED) {
-      throw new BadRequestException('Cannot reserve unpublished or cancelled event');
+      throw new BadRequestException(
+        'Cannot reserve unpublished or cancelled event',
+      );
     }
 
     // Check if user already has an active reservation for this event
@@ -33,7 +45,9 @@ export class ReservationsService {
     });
 
     if (existingReservation) {
-      throw new BadRequestException('You already have an active reservation for this event');
+      throw new BadRequestException(
+        'You already have an active reservation for this event',
+      );
     }
 
     // Check event capacity
@@ -55,7 +69,10 @@ export class ReservationsService {
     return newReservation.save();
   }
 
-  async findAll(userId?: string, isAdmin: boolean = false): Promise<ReservationDocument[]> {
+  async findAll(
+    userId?: string,
+    isAdmin: boolean = false,
+  ): Promise<ReservationDocument[]> {
     const query = !isAdmin && userId ? { user: userId } : {};
     return this.reservationModel
       .find(query)
@@ -79,12 +96,15 @@ export class ReservationsService {
     return reservation;
   }
 
-  async findByEvent(eventId: string, isAdmin: boolean): Promise<ReservationDocument[]> {
+  async findByEvent(
+    eventId: string,
+    isAdmin: boolean,
+  ): Promise<ReservationDocument[]> {
     // Verify event exists
     await this.eventsService.findOne(eventId);
 
     const query: any = { event: eventId };
-    
+
     // Non-admin users only see confirmed reservations
     if (!isAdmin) {
       query.status = ReservationStatus.CONFIRMED;
@@ -119,10 +139,14 @@ export class ReservationsService {
     // Participants can only cancel their own reservations
     if (!isAdmin) {
       if (reservation.user._id.toString() !== userId) {
-        throw new ForbiddenException('You can only manage your own reservations');
+        throw new ForbiddenException(
+          'You can only manage your own reservations',
+        );
       }
       if (changeStatusDto.status !== ReservationStatus.CANCELED) {
-        throw new ForbiddenException('Participants can only cancel reservations');
+        throw new ForbiddenException(
+          'Participants can only cancel reservations',
+        );
       }
     }
 
@@ -131,19 +155,27 @@ export class ReservationsService {
     let seatsAdjustment = 0;
 
     // If changing FROM CONFIRMED, increase availableSeats
-    if (oldStatus === ReservationStatus.CONFIRMED && newStatus !== ReservationStatus.CONFIRMED) {
+    if (
+      oldStatus === ReservationStatus.CONFIRMED &&
+      newStatus !== ReservationStatus.CONFIRMED
+    ) {
       seatsAdjustment = 1;
     }
     // If changing TO CONFIRMED from another status, decrease availableSeats
-    else if (oldStatus !== ReservationStatus.CONFIRMED && newStatus === ReservationStatus.CONFIRMED) {
+    else if (
+      oldStatus !== ReservationStatus.CONFIRMED &&
+      newStatus === ReservationStatus.CONFIRMED
+    ) {
       seatsAdjustment = -1;
     }
 
     if (seatsAdjustment !== 0) {
-      await this.eventModel.updateOne(
-        { _id: eventId },
-        { $inc: { availableSeats: seatsAdjustment } },
-      ).exec();
+      await this.eventModel
+        .updateOne(
+          { _id: eventId },
+          { $inc: { availableSeats: seatsAdjustment } },
+        )
+        .exec();
     }
 
     // Admin can change to any status

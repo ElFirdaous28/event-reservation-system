@@ -99,7 +99,11 @@ describe('EventsService', () => {
         exec: jest.fn().mockResolvedValue(updated),
       });
 
-      const result = await service.update(eventId, { title: 'Updated' } as any, userId);
+      const result = await service.update(
+        eventId,
+        { title: 'Updated' } as any,
+        userId,
+      );
 
       expect(eventModelMock.findByIdAndUpdate).toHaveBeenCalledWith(
         eventId,

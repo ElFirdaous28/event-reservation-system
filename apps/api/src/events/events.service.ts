@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,9 +14,12 @@ import { ChangeEventStatusDto } from './dto/change-event-status.dto';
 export class EventsService {
   constructor(
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
-  ) { }
+  ) {}
 
-  async create(createEventDto: CreateEventDto, userId: string): Promise<EventDocument> {
+  async create(
+    createEventDto: CreateEventDto,
+    userId: string,
+  ): Promise<EventDocument> {
     const newEvent = new this.eventModel({
       ...createEventDto,
       availableSeats: createEventDto.availableSeats ?? createEventDto.capacity,
@@ -22,12 +29,20 @@ export class EventsService {
     return newEvent.save();
   }
 
-  async findAll(filters?: {
-    status?: EventStatus;
-    search?: string;
-    page?: number;
-    limit?: number;
-  }, isAdmin: boolean = false): Promise<{ events: EventDocument[]; total: number; page: number; totalPages: number }> {
+  async findAll(
+    filters?: {
+      status?: EventStatus;
+      search?: string;
+      page?: number;
+      limit?: number;
+    },
+    isAdmin: boolean = false,
+  ): Promise<{
+    events: EventDocument[];
+    total: number;
+    page: number;
+    totalPages: number;
+  }> {
     const page = filters?.page || 1;
     const limit = filters?.limit || 10;
     const skip = (page - 1) * limit;
@@ -69,12 +84,20 @@ export class EventsService {
     };
   }
 
-  async findByCreator(userId: string, filters?: {
-    status?: EventStatus;
-    search?: string;
-    page?: number;
-    limit?: number;
-  }): Promise<{ events: EventDocument[]; total: number; page: number; totalPages: number }> {
+  async findByCreator(
+    userId: string,
+    filters?: {
+      status?: EventStatus;
+      search?: string;
+      page?: number;
+      limit?: number;
+    },
+  ): Promise<{
+    events: EventDocument[];
+    total: number;
+    page: number;
+    totalPages: number;
+  }> {
     const page = filters?.page || 1;
     const limit = filters?.limit || 10;
     const skip = (page - 1) * limit;
@@ -117,14 +140,21 @@ export class EventsService {
   }
 
   async findOne(id: string): Promise<EventDocument> {
-    const event = await this.eventModel.findById(id).populate('createdBy', 'fullName email').exec();
+    const event = await this.eventModel
+      .findById(id)
+      .populate('createdBy', 'fullName email')
+      .exec();
     if (!event) {
       throw new NotFoundException(`Event with ID ${id} not found`);
     }
     return event;
   }
 
-  async update(id: string, updateEventDto: UpdateEventDto, userId: string): Promise<EventDocument> {
+  async update(
+    id: string,
+    updateEventDto: UpdateEventDto,
+    userId: string,
+  ): Promise<EventDocument> {
     const event = await this.findOne(id);
 
     // Check if user is the creator
@@ -144,12 +174,18 @@ export class EventsService {
     return updatedEvent;
   }
 
-  async changeStatus(id: string, changeStatusDto: ChangeEventStatusDto, userId: string): Promise<EventDocument> {
+  async changeStatus(
+    id: string,
+    changeStatusDto: ChangeEventStatusDto,
+    userId: string,
+  ): Promise<EventDocument> {
     const event = await this.findOne(id);
 
     // Check if user is the creator
     if (event.createdBy._id.toString() !== userId) {
-      throw new ForbiddenException('You can only change status of events you created');
+      throw new ForbiddenException(
+        'You can only change status of events you created',
+      );
     }
 
     event.status = changeStatusDto.status;
