@@ -157,8 +157,11 @@ export class EventsService {
   ): Promise<EventDocument> {
     const event = await this.findOne(id);
 
-    // Check if user is the creator
-    if (event.createdBy._id.toString() !== userId) {
+    // Check if user is the creator - handle populated or unpopulated createdBy
+    const createdById = (event.createdBy as any)?._id?.toString() || 
+                        (event.createdBy as Types.ObjectId)?.toString();
+
+    if (!createdById || createdById !== userId) {
       throw new ForbiddenException('You can only update events you created');
     }
 
@@ -181,22 +184,41 @@ export class EventsService {
   ): Promise<EventDocument> {
     const event = await this.findOne(id);
 
-    // Check if user is the creator
-    if (event.createdBy._id.toString() !== userId) {
+    // Check if user is the creator - handle populated or unpopulated createdBy
+    const createdById = (event.createdBy as any)?._id?.toString() || 
+                        (event.createdBy as Types.ObjectId)?.toString();
+
+    if (!createdById || createdById !== userId) {
       throw new ForbiddenException(
         'You can only change status of events you created',
       );
     }
 
-    event.status = changeStatusDto.status;
-    return event.save();
+    // Use findByIdAndUpdate to avoid issues with populated documents
+    const updatedEvent = await this.eventModel
+      .findByIdAndUpdate(
+        id,
+        { status: changeStatusDto.status },
+        { new: true },
+      )
+      .populate('createdBy', 'fullName email')
+      .exec();
+
+    if (!updatedEvent) {
+      throw new NotFoundException('Event not found');
+    }
+
+    return updatedEvent;
   }
 
   async remove(id: string, userId: string): Promise<void> {
     const event = await this.findOne(id);
 
-    // Check if user is the creator
-    if (event.createdBy._id.toString() !== userId) {
+    // Check if user is the creator - handle populated or unpopulated createdBy
+    const createdById = (event.createdBy as any)?._id?.toString() || 
+                        (event.createdBy as Types.ObjectId)?.toString();
+
+    if (!createdById || createdById !== userId) {
       throw new ForbiddenException('You can only delete events you created');
     }
 
