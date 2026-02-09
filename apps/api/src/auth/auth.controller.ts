@@ -20,7 +20,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
-  ) {}
+  ) { }
 
   private setRefreshTokenCookie(res: Response, token: string) {
     res.cookie('refreshToken', token, {
@@ -42,7 +42,7 @@ export class AuthController {
 
     this.setRefreshTokenCookie(res, tokens.refreshToken);
 
-    // Only return accessToken, NOT refreshToken
+
     return {
       accessToken: tokens.accessToken,
       message: 'Registration successful',
@@ -61,7 +61,6 @@ export class AuthController {
     const tokens = this.authService.login(user);
     this.setRefreshTokenCookie(res, tokens.refreshToken);
 
-    // Only return accessToken, NOT refreshToken
     return { accessToken: tokens.accessToken, message: 'Login successful' };
   }
 
@@ -70,14 +69,13 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
   ) {
-    // Get token from cookie only (more secure)
+    // Get token from cookie only
     const token = req.cookies['refreshToken'];
     if (!token) throw new UnauthorizedException('No refresh token');
 
     const tokens = await this.authService.refreshTokens(token);
     this.setRefreshTokenCookie(res, tokens.refreshToken);
 
-    // Only return accessToken, NOT refreshToken
     return { accessToken: tokens.accessToken };
   }
 
@@ -90,13 +88,13 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async me(@Req() req: Request) {
-    // The JwtAuthGuard will attach the user to req.user
     const userId = req.user!.sub;
     const user = await this.usersService.findOne(userId);
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
-    // Return only safe fields (no password)
+    
+    // return user without password 
     const userObj = user.toObject ? user.toObject() : user;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...safeUser } = userObj as any;
