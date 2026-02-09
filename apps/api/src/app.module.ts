@@ -13,7 +13,7 @@ import { SeederModule } from './seeders/seeder.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
+      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : `.env.${process.env.NODE_ENV || 'development'}`,
       validate: (env) => {
         if (!env.JWT_ACCESS_SECRET) throw new Error('JWT_ACCESS_SECRET missing');
         if (!env.JWT_REFRESH_SECRET) throw new Error('JWT_REFRESH_SECRET missing');
