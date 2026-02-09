@@ -3,9 +3,12 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import cookieParser from 'cookie-parser';
+import { Connection } from 'mongoose';
+import { getConnectionToken } from '@nestjs/mongoose';
 
 describe('Auth E2E', () => {
     let app: INestApplication;
+    let connection: Connection;
     const makeUser = () => {
         const id = Date.now().toString();
         return {
@@ -32,9 +35,19 @@ describe('Auth E2E', () => {
         app.use(cookieParser());
 
         await app.init();
+
+        connection = app.get(getConnectionToken());
+    });
+
+    afterEach(async () => {
+        const collections = connection.collections;
+        for (const key in collections) {
+            await collections[key].deleteMany({});
+        }
     });
 
     afterAll(async () => {
+        await connection.close();
         await app.close();
     });
 
