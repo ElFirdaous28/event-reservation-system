@@ -6,10 +6,9 @@ import { Event, EventStatus } from '@repo/shared';
 import { EmptyState, ErrorAlert, Skeleton } from '@/components/ui';
 import { EventCard } from './EventCard';
 
-type EventWithId = Event & { _id?: string };
 
 export function EventsList() {
-  const [events, setEvents] = useState<EventWithId[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,7 +19,7 @@ export function EventsList() {
         const data = await eventsApi.getAllEvents({
           status: EventStatus.PUBLISHED,
         });
-        setEvents((data.events || []) as EventWithId[]);
+        setEvents((data.events || []) as Event[]);
       } catch (err) {
         // console.error('Error fetching events:', err);
         setError('Failed to load events. Please try again later.');
