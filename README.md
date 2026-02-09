@@ -208,4 +208,4 @@ The project uses GitHub Actions for continuous integration and deployment:
 Pipeline fails if:
 - Linting errors are detected
 - Tests fail
-- Build fails .
+- Build fails
