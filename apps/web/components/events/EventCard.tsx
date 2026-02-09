@@ -2,10 +2,6 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { Event } from '@repo/shared';
 
-type EventWithId = Event & { _id?: string; availableSeats?: number };
-
-const getEventId = (event: EventWithId) => event._id;
-
 function EventMeta({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className='text-muted flex items-center text-sm'>
@@ -15,8 +11,7 @@ function EventMeta({ icon, children }: { icon: React.ReactNode; children: React.
   );
 }
 
-export function EventCard({ event }: { event: EventWithId }) {
-  const eventId = getEventId(event);
+export function EventCard({ event }: { event: Event }) {
 
   return (
     <div className='bg-surface border-border overflow-hidden rounded-lg border shadow-sm transition-shadow hover:shadow-md'>
@@ -82,9 +77,9 @@ export function EventCard({ event }: { event: EventWithId }) {
           </EventMeta>
         </div>
 
-        {eventId ? (
+        {event._id ? (
           <Link
-            href={`/events/${eventId}`}
+            href={`/events/${event._id}`}
             className='bg-primary hover:bg-primary-hover block w-full rounded px-4 py-2 text-center font-medium text-white transition-colors'
           >
             View Details

@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { Event, ReservationStatus } from '@repo/shared';
+import { Event } from '@repo/shared';
 import { eventsApi } from '@/lib/api/events';
-import { reservationsApi } from '@/lib/api/reservations';
 import { ErrorAlert, Skeleton } from '@/components/ui';
 import { ReservationButton } from './ReservationButton';
 
-type EventWithId = Event & { _id?: string; availableSeats?: number };
 
 type EventDetailsProps = {
   id: string;
@@ -24,7 +22,7 @@ function DetailRow({ label, value }: { label: string; value: React.ReactNode }) 
 }
 
 export function EventDetails({ id }: EventDetailsProps) {
-  const [event, setEvent] = useState<EventWithId | null>(null);
+  const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,10 +32,10 @@ export function EventDetails({ id }: EventDetailsProps) {
 
       // Fetch event details
       const eventData = await eventsApi.getOne(id);
-      const resolvedEvent = (eventData?.event ?? eventData) as EventWithId;
+      const resolvedEvent = (eventData?.event ?? eventData) as Event;
       setEvent(resolvedEvent);
     } catch (err) {
-      console.error('Error fetching event:', err);
+      // console.error('Error fetching event:', err);
       setError('Failed to load event details. Please try again later.');
     } finally {
       setLoading(false);

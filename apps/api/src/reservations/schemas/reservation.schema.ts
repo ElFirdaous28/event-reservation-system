@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ReservationStatus } from '@repo/shared/dist/enums/reservation-status.enum';
+import { ReservationStatus } from '@repo/shared';
 import { HydratedDocument, Types } from 'mongoose';
 import { Event } from 'src/events/schemas/event.schema';
 import { User } from 'src/users/schemas/user.schema';

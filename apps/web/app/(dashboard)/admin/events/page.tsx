@@ -37,7 +37,7 @@ export default function Page() {
         if (mounted) setData(res);
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
         if (mounted) setError('Unable to load events');
       })
       .finally(() => {

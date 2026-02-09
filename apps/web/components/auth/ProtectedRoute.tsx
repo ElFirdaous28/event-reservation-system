@@ -20,7 +20,7 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
       if (!isAuthenticated) {
         router.push('/login');
       } else if (allowedRoles && user && !allowedRoles.includes(user.role as Role)) {
-        // We are authenticated but NOT authorized for this specific role
+      
         setIsAuthorized(false);
       } else {
         setIsAuthorized(true);
@@ -30,10 +30,8 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
 
   if (isLoading) return <div>Loading...</div>;
 
-  // 1. Not logged in: The useEffect will handle the redirect to /login
   if (!isAuthenticated) return null;
 
-  // 2. Logged in but WRONG ROLE: Show Forbidden UI
   if (!isAuthorized) {
     return (
       <div className='flex h-screen flex-col items-center justify-center'>

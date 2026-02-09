@@ -24,7 +24,7 @@ export default function UpdateProfileForm({ user }: { user: any }) {
       const data = await usersApi.updateProfile({ fullName, email });
       setSuccess('Profile updated');
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       setError('Unable to update profile');
     } finally {
       setLoading(false);

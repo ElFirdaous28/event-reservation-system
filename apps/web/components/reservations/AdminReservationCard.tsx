@@ -52,7 +52,7 @@ export function AdminReservationCard({ reservation, onUpdate }: AdminReservation
       });
       onUpdate();
     } catch (err: any) {
-      console.error('Error updating reservation:', err);
+      // console.error('Error updating reservation:', err);
       setError(err?.response?.data?.message || 'Failed to update reservation');
     } finally {
       setLoading(false);
@@ -75,7 +75,7 @@ export function AdminReservationCard({ reservation, onUpdate }: AdminReservation
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (err: any) {
-      console.error('Error downloading ticket:', err);
+      // console.error('Error downloading ticket:', err);
       setError(err?.response?.data?.message || 'Failed to download ticket');
     } finally {
       setDownloading(false);

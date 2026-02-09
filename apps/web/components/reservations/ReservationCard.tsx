@@ -53,7 +53,7 @@ export function ReservationCard({ reservation, onUpdate }: ReservationCardProps)
       });
       onUpdate();
     } catch (err: any) {
-      console.error('Error canceling reservation:', err);
+      // console.error('Error canceling reservation:', err);
       setError(err?.response?.data?.message || 'Failed to cancel reservation');
     } finally {
       setCanceling(false);
@@ -76,7 +76,7 @@ export function ReservationCard({ reservation, onUpdate }: ReservationCardProps)
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (err: any) {
-      console.error('Error downloading ticket:', err);
+      // console.error('Error downloading ticket:', err);
       setError(err?.response?.data?.message || 'Failed to download ticket');
     } finally {
       setDownloading(false);

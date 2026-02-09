@@ -19,7 +19,7 @@ export default function MyReservationsPage() {
       const data = await reservationsApi.getMyReservations();
       setReservations(data);
     } catch (err: any) {
-      console.error('Error fetching reservations:', err);
+      // console.error('Error fetching reservations:', err);
       setError(err?.response?.data?.message || 'Failed to load reservations');
     } finally {
       setLoading(false);
