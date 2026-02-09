@@ -48,7 +48,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const handleLogout = () => {
       setUser(null);
       setAccessToken(null);
-      router.push('/login');
     };
 
     window.addEventListener('auth:logout', handleLogout);
