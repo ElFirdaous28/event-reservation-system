@@ -17,7 +17,7 @@ const { user } = useAuth();
   return (
     <ProtectedRoute allowedRoles={[Role.ADMIN, Role.PARTICIPANT]}>
       <div className="flex min-h-screen bg-background">
-        {user.role === Role.ADMIN ? <AdminSidebar /> : <ParticipantSidebar />}
+        {user && user.role === Role.ADMIN ? <AdminSidebar /> : <ParticipantSidebar />}
         <main className="flex-1 p-6">
           {children}
         </main>
