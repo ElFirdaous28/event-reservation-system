@@ -2,12 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtPayload } from '@repo/shared';
 
-declare global {
-    namespace Express {
-        interface Request {
-            user?: JwtPayload;
-        }
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: JwtPayload;
+  }
 }
 
 @Injectable()

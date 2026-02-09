@@ -1,0 +1,23 @@
+# Next.js Build Output
+.next
+out
+dist
+
+# Dependencies
+node_modules
+
+# Assets & Static Files
+public/file.svg
+public/globe.svg
+public/window.svg
+public/vercel.svg
+public/images/
+
+# Configs & Locks
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.env*
+
+# Tests & Coverage
+coverage/

@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+  Query,
+} from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -16,7 +27,7 @@ export class EventsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Post()
-  create(@Body() createEventDto: CreateEventDto, @Req() req: Request) {    
+  create(@Body() createEventDto: CreateEventDto, @Req() req: Request) {
     return this.eventsService.create(createEventDto, req.user!.sub);
   }
 
@@ -66,14 +77,22 @@ export class EventsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto, @Req() req: Request) {
+  update(
+    @Param('id') id: string,
+    @Body() updateEventDto: UpdateEventDto,
+    @Req() req: Request,
+  ) {
     return this.eventsService.update(id, updateEventDto, req.user!.sub);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Patch(':id/status')
-  changeStatus(@Param('id') id: string, @Body() changeStatusDto: ChangeEventStatusDto, @Req() req: Request) {
+  changeStatus(
+    @Param('id') id: string,
+    @Body() changeStatusDto: ChangeEventStatusDto,
+    @Req() req: Request,
+  ) {
     return this.eventsService.changeStatus(id, changeStatusDto, req.user!.sub);
   }
 

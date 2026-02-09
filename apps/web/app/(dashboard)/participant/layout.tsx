@@ -5,14 +5,12 @@ import { Role } from '@repo/shared';
 import { ParticipantSidebar } from '@/components/layout/ParticipantSidebar';
 
 export default function ParticipantLayout({ children }) {
-    return (
-        <ProtectedRoute allowedRoles={[Role.PARTICIPANT]}>
-            <div className="flex min-h-screen bg-background">
-                <ParticipantSidebar />
-                <main className="flex-1 p-6">
-                    {children}
-                </main>
-            </div>
-        </ProtectedRoute>
-    );
+  return (
+    <ProtectedRoute allowedRoles={[Role.PARTICIPANT]}>
+      <div className='bg-background flex min-h-screen'>
+        <ParticipantSidebar />
+        <main className='flex-1 p-6'>{children}</main>
+      </div>
+    </ProtectedRoute>
+  );
 }

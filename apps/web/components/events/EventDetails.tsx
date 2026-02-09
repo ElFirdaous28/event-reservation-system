@@ -14,17 +14,11 @@ type EventDetailsProps = {
   id: string;
 };
 
-function DetailRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
+function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
-      <span className="text-sm font-medium text-muted w-28">{label}</span>
-      <span className="text-foreground">{value}</span>
+    <div className='flex flex-col sm:flex-row sm:items-center sm:gap-3'>
+      <span className='text-muted w-28 text-sm font-medium'>{label}</span>
+      <span className='text-foreground'>{value}</span>
     </div>
   );
 }
@@ -37,7 +31,7 @@ export function EventDetails({ id }: EventDetailsProps) {
   const fetchEventData = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch event details
       const eventData = await eventsApi.getOne(id);
       const resolvedEvent = (eventData?.event ?? eventData) as EventWithId;
@@ -54,64 +48,58 @@ export function EventDetails({ id }: EventDetailsProps) {
     if (id) {
       fetchEventData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (loading) {
-    return <Skeleton type="event-details" />;
+    return <Skeleton type='event-details' />;
   }
 
   if (error) {
     return (
-      <ErrorAlert
-        title="Error Loading Event"
-        message={error}
-        onDismiss={() => setError(null)}
-      />
+      <ErrorAlert title='Error Loading Event' message={error} onDismiss={() => setError(null)} />
     );
   }
 
   if (!event) {
     return (
       <ErrorAlert
-        title="Event Not Found"
+        title='Event Not Found'
         message="We couldn't find the event you’re looking for."
       />
     );
   }
 
   return (
-    <div className="bg-surface border border-border rounded-lg p-6 shadow-sm">
-      <div className="flex items-start justify-between gap-4">
+    <div className='bg-surface border-border rounded-lg border p-6 shadow-sm'>
+      <div className='flex items-start justify-between gap-4'>
         <div>
-          <h2 className="text-2xl font-semibold text-foreground">
-            {event.title}
-          </h2>
-          <p className="text-muted mt-1">
-            {format(new Date(event.date), 'EEEE, MMMM d, yyyy')}
-          </p>
+          <h2 className='text-foreground text-2xl font-semibold'>{event.title}</h2>
+          <p className='text-muted mt-1'>{format(new Date(event.date), 'EEEE, MMMM d, yyyy')}</p>
         </div>
-        <span className="text-xs uppercase tracking-wide bg-primary/10 text-primary px-2 py-1 rounded">
+        <span className='bg-primary/10 text-primary rounded px-2 py-1 text-xs tracking-wide uppercase'>
           {event.status}
         </span>
       </div>
 
-      <p className="text-foreground mt-6 leading-relaxed">
+      <p className='text-foreground mt-6 leading-relaxed'>
         {event.description || 'No description available.'}
       </p>
 
-      <div className="mt-6 space-y-3">
-        <DetailRow label="Location" value={event.location} />
-        <DetailRow label="Total Capacity" value={`${event.capacity} spots`} />
-        <DetailRow 
-          label="Available Seats" 
-          value={typeof event.availableSeats === 'number' ? `${event.availableSeats} spots` : `${event.capacity} spots`}
+      <div className='mt-6 space-y-3'>
+        <DetailRow label='Location' value={event.location} />
+        <DetailRow label='Total Capacity' value={`${event.capacity} spots`} />
+        <DetailRow
+          label='Available Seats'
+          value={
+            typeof event.availableSeats === 'number'
+              ? `${event.availableSeats} spots`
+              : `${event.capacity} spots`
+          }
         />
       </div>
 
-      <ReservationButton 
-        event={event} 
-        onSuccess={fetchEventData}
-      />
+      <ReservationButton event={event} onSuccess={fetchEventData} />
     </div>
   );
 }

@@ -32,16 +32,24 @@ export default function Page() {
   };
 
   return (
-    <div className="max-w-3xl space-y-6">
-      <PageHeader title="Create Event" subtitle="Add a new event" />
+    <div className='max-w-3xl space-y-6'>
+      <PageHeader title='Create Event' subtitle='Add a new event' />
 
-      {error && <ErrorAlert title="Create Failed" message={error} onDismiss={() => setError(null)} />}
+      {error && (
+        <ErrorAlert title='Create Failed' message={error} onDismiss={() => setError(null)} />
+      )}
 
-      <div className="bg-surface border border-border rounded-lg p-6">
+      <div className='bg-surface border-border rounded-lg border p-6'>
         <EventForm
-          initialValues={{ title: '', description: '', date: '', location: '', capacity: 1 }}
+          initialValues={{
+            title: '',
+            description: '',
+            date: '',
+            location: '',
+            capacity: 1,
+          }}
           onSubmit={handleCreate}
-          submitLabel="Create event"
+          submitLabel='Create event'
           loading={loading}
         />
       </div>

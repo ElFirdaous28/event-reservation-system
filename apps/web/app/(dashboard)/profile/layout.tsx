@@ -7,20 +7,14 @@ import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { Role } from '@repo/shared/dist/enums/role.enum';
 import { useAuth } from '@/providers/AuthProvider';
 
-export default function ProfileLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-const { user } = useAuth();
+  const { user } = useAuth();
   return (
     <ProtectedRoute allowedRoles={[Role.ADMIN, Role.PARTICIPANT]}>
-      <div className="flex min-h-screen bg-background">
-        {user.role === Role.ADMIN ? <AdminSidebar /> : <ParticipantSidebar />}
-        <main className="flex-1 p-6">
-          {children}
-        </main>
+      <div className='bg-background flex min-h-screen'>
+        {user && user.role === Role.ADMIN ? <AdminSidebar /> : <ParticipantSidebar />}
+        <main className='flex-1 p-6'>{children}</main>
       </div>
     </ProtectedRoute>
   );

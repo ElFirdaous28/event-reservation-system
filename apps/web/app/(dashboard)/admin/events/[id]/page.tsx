@@ -9,8 +9,6 @@ import { ErrorAlert, LoadingSpinner, PageHeader } from '@/components/ui';
 import EventForm from '@/components/events/admin/EventForm';
 import StatusBadge from '@/components/events/admin/StatusBadge';
 
-
-
 export default function Page() {
   const params = useParams();
   const router = useRouter();
@@ -84,16 +82,16 @@ export default function Page() {
 
   if (loading) {
     return (
-      <div className="flex justify-center py-12">
-        <LoadingSpinner size="lg" />
+      <div className='flex justify-center py-12'>
+        <LoadingSpinner size='lg' />
       </div>
     );
   }
 
   if (!event) {
     return (
-      <div className="max-w-3xl">
-        <ErrorAlert title="Not Found" message="Event not found" />
+      <div className='max-w-3xl'>
+        <ErrorAlert title='Not Found' message='Event not found' />
       </div>
     );
   }
@@ -101,39 +99,41 @@ export default function Page() {
   const dateValue = format(new Date(event.date), 'yyyy-MM-dd');
 
   return (
-    <div className="max-w-3xl space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <PageHeader title="Edit Event" subtitle="Update event details" />
+    <div className='max-w-3xl space-y-6'>
+      <div className='flex items-start justify-between gap-4'>
+        <PageHeader title='Edit Event' subtitle='Update event details' />
         <button
-          type="button"
+          type='button'
           onClick={() => router.push('/admin/events')}
-          className="px-4 py-2 border border-border rounded hover:bg-surface"
+          className='border-border hover:bg-surface rounded border px-4 py-2'
         >
           Back to list
         </button>
       </div>
 
-      {error && <ErrorAlert title="Update Failed" message={error} onDismiss={() => setError(null)} />}
+      {error && (
+        <ErrorAlert title='Update Failed' message={error} onDismiss={() => setError(null)} />
+      )}
 
-      <div className="bg-surface border border-border rounded-lg p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <p className="text-sm text-muted">Status</p>
+      <div className='bg-surface border-border space-y-4 rounded-lg border p-6'>
+        <div className='flex items-center justify-between'>
+          <div className='space-y-1'>
+            <p className='text-muted text-sm'>Status</p>
             <StatusBadge status={event.status} />
           </div>
-          <div className="flex gap-2">
+          <div className='flex gap-2'>
             <button
-              type="button"
+              type='button'
               onClick={() => handleStatusChange(EventStatus.PUBLISHED)}
-              className="px-3 py-1 border border-border rounded hover:bg-surface disabled:opacity-50"
+              className='border-border hover:bg-surface rounded border px-3 py-1 disabled:opacity-50'
               disabled={statusLoading || event.status === EventStatus.PUBLISHED}
             >
               Publish
             </button>
             <button
-              type="button"
+              type='button'
               onClick={() => handleStatusChange(EventStatus.CANCELED)}
-              className="px-3 py-1 border border-border rounded hover:bg-surface disabled:opacity-50"
+              className='border-border hover:bg-surface rounded border px-3 py-1 disabled:opacity-50'
               disabled={statusLoading || event.status === EventStatus.CANCELED}
             >
               Cancel
@@ -150,7 +150,7 @@ export default function Page() {
             capacity: event.capacity,
           }}
           onSubmit={handleUpdate}
-          submitLabel="Save changes"
+          submitLabel='Save changes'
           loading={saving}
         />
       </div>

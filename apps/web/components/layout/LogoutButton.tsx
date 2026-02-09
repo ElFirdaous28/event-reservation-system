@@ -8,11 +8,11 @@ export default function LogoutButton({ className = '' }: { className?: string })
 
   return (
     <button
-      type="button"
+      type='button'
       onClick={logout}
-      className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-foreground hover:bg-primary/10 hover:text-primary transition-colors ${className}`}
+      className={`text-foreground hover:bg-primary/10 hover:text-primary flex w-full items-center gap-3 rounded-lg px-4 py-2 transition-colors ${className}`}
     >
-      <LogOut className="h-4 w-4" aria-hidden="true" />
+      <LogOut className='h-4 w-4' aria-hidden='true' />
       <span>Logout</span>
     </button>
   );

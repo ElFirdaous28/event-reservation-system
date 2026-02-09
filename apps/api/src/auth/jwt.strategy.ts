@@ -5,16 +5,16 @@ import { JwtPayload } from '@repo/shared';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor() {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
-            secretOrKey: process.env.JWT_ACCESS_SECRET,
-        });
-    }
+  constructor() {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: process.env.JWT_ACCESS_SECRET,
+    });
+  }
 
-    async validate(payload: JwtPayload): Promise<JwtPayload> {
-        // Passport automatically attaches this return value to req.user
-        return payload;
-    }
+  validate(payload: JwtPayload): JwtPayload {
+    // Passport automatically attaches this return value to req.user
+    return payload;
+  }
 }

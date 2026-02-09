@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException, ConflictException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -8,7 +12,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async validateUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
@@ -21,16 +25,17 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const { password: _, ...result } = user.toObject();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _password, ...result } = user.toObject();
     return result;
   }
 
-  async generateTokens(user: any) {
+  generateTokens(user: any) {
     const payload = {
       email: user.email,
       sub: user._id,
       role: user.role,
-      fullName: user.fullName
+      fullName: user.fullName,
     };
 
     const accessToken = this.jwtService.sign(payload, {
@@ -46,7 +51,7 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async login(user: any) {
+  login(user: any) {
     return this.generateTokens(user);
   }
 

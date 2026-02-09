@@ -13,10 +13,15 @@ import { SeederModule } from './seeders/seeder.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : `.env.${process.env.NODE_ENV || 'development'}`,
+      envFilePath:
+        process.env.NODE_ENV === 'test'
+          ? '.env.test'
+          : `.env.${process.env.NODE_ENV || 'development'}`,
       validate: (env) => {
-        if (!env.JWT_ACCESS_SECRET) throw new Error('JWT_ACCESS_SECRET missing');
-        if (!env.JWT_REFRESH_SECRET) throw new Error('JWT_REFRESH_SECRET missing');
+        if (!env.JWT_ACCESS_SECRET)
+          throw new Error('JWT_ACCESS_SECRET missing');
+        if (!env.JWT_REFRESH_SECRET)
+          throw new Error('JWT_REFRESH_SECRET missing');
         if (!env.MONGO_URI) throw new Error('MONGO_URI missing');
         return env;
       },
@@ -24,7 +29,7 @@ import { SeederModule } from './seeders/seeder.module';
 
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGO_URI'),
       }),
       inject: [ConfigService],
@@ -43,4 +48,4 @@ import { SeederModule } from './seeders/seeder.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
