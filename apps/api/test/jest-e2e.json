@@ -11,7 +11,6 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "^src/(.*)$": "<rootDir>/../src/$1",
-    "^@repo/shared$": "<rootDir>/../../libs/shared/src"
+    "^src/(.*)$": "<rootDir>/../src/$1"
   }
 }
