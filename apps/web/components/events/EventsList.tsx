@@ -22,7 +22,7 @@ export function EventsList() {
         });
         setEvents((data.events || []) as EventWithId[]);
       } catch (err) {
-        console.error('Error fetching events:', err);
+        // console.error('Error fetching events:', err);
         setError('Failed to load events. Please try again later.');
       } finally {
         setLoading(false);

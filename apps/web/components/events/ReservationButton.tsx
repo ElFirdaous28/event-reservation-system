@@ -70,7 +70,7 @@ export function ReservationButton({ event, onSuccess }: ReservationButtonProps) 
         router.push('/participant/my-reservations');
       }, 2000);
     } catch (err: any) {
-      console.error('Error creating reservation:', err);
+      // console.error('Error creating reservation:', err);
 
       // Handle backend errors
       const errorMessage =

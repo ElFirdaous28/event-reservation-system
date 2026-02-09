@@ -24,7 +24,7 @@ export default function Page() {
       await eventsApi.create(values);
       router.push('/admin/events');
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       setError('Unable to create event');
     } finally {
       setLoading(false);

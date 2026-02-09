@@ -32,7 +32,7 @@ export default function Page() {
         if (mounted) setEvent(res);
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
         if (mounted) setError('Unable to load event');
       })
       .finally(() => {
@@ -58,7 +58,7 @@ export default function Page() {
       const updated = await eventsApi.update(eventId, values);
       setEvent(updated);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       setError('Unable to update event');
     } finally {
       setSaving(false);
@@ -73,7 +73,7 @@ export default function Page() {
       const updated = await eventsApi.changeStatus(eventId, { status });
       setEvent(updated);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       setError('Unable to change status');
     } finally {
       setStatusLoading(false);

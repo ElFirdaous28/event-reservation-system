@@ -37,7 +37,7 @@ export function EventDetails({ id }: EventDetailsProps) {
       const resolvedEvent = (eventData?.event ?? eventData) as EventWithId;
       setEvent(resolvedEvent);
     } catch (err) {
-      console.error('Error fetching event:', err);
+      // console.error('Error fetching event:', err);
       setError('Failed to load event details. Please try again later.');
     } finally {
       setLoading(false);
