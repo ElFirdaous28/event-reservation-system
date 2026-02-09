@@ -91,7 +91,7 @@ describe('LoginForm', () => {
 
       const emailInput = screen.getByPlaceholderText(/you@example.com/i);
       const passwordInput = screen.getByPlaceholderText(/••••••/i);
-      
+
       await user.type(emailInput, 'notanemail');
       await user.type(passwordInput, 'password123');
 
@@ -183,7 +183,9 @@ describe('LoginForm', () => {
       // Start typing to clear error
       await user.type(passwordInput, 'password123');
       await waitFor(() => {
-        expect(screen.queryByText(/password must be at least 6 characters/i)).not.toBeInTheDocument();
+        expect(
+          screen.queryByText(/password must be at least 6 characters/i),
+        ).not.toBeInTheDocument();
       });
     });
   });
@@ -231,9 +233,7 @@ describe('LoginForm', () => {
 
     it('should show loading state during submission', async () => {
       const user = userEvent.setup();
-      mockLogin.mockImplementation(
-        () => new Promise((resolve) => setTimeout(resolve, 100))
-      );
+      mockLogin.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)));
 
       render(<LoginForm />);
 
@@ -332,9 +332,7 @@ describe('LoginForm', () => {
 
     it('should disable form inputs during API error handling', async () => {
       const user = userEvent.setup();
-      mockLogin.mockImplementation(
-        () => new Promise((resolve) => setTimeout(resolve, 100))
-      );
+      mockLogin.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)));
 
       render(<LoginForm />);
 
@@ -412,7 +410,9 @@ describe('LoginForm', () => {
 
       await waitFor(() => {
         // Find the error container div with bg-error class
-        const errorContainer = screen.getByText(/invalid email or password/i).closest('div[class*="bg-error"]');
+        const errorContainer = screen
+          .getByText(/invalid email or password/i)
+          .closest('div[class*="bg-error"]');
         expect(errorContainer).toBeInTheDocument();
         expect(errorContainer?.className).toContain('bg-error');
       });

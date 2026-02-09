@@ -8,7 +8,9 @@ export default function StatusBadge({ status }: { status: EventStatus }) {
   };
 
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${styles[status]}`}>
+    <span
+      className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${styles[status]}`}
+    >
       {status}
     </span>
   );

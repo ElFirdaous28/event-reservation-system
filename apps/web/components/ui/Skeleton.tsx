@@ -5,7 +5,13 @@ interface SkeletonProps {
   count?: number;
 }
 
-type SkeletonType = 'generic' | 'event-card' | 'event-details' | 'reservation' | 'table-row' | 'profile';
+type SkeletonType =
+  | 'generic'
+  | 'event-card'
+  | 'event-details'
+  | 'reservation'
+  | 'table-row'
+  | 'profile';
 
 interface SkeletonVariantProps {
   type: SkeletonType;
@@ -16,16 +22,13 @@ interface SkeletonVariantProps {
 /**
  * Generic Skeleton - simple animated block
  */
-const GenericSkeleton: React.FC<SkeletonProps> = ({
-  className = 'h-12 w-full',
-  count = 1,
-}) => {
+const GenericSkeleton: React.FC<SkeletonProps> = ({ className = 'h-12 w-full', count = 1 }) => {
   return (
     <>
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className={`${className} rounded animate-pulse`}
+          className={`${className} animate-pulse rounded`}
           style={{ backgroundColor: 'var(--border)' }}
         />
       ))}
@@ -40,19 +43,16 @@ const EventCardVariant: React.FC<{ count?: number }> = ({ count = 1 }) => {
   return (
     <>
       {Array.from({ length: count }).map((_, i) => (
-        <div
-          key={i}
-          className="bg-surface border border-border rounded-lg p-6 shadow-sm space-y-4"
-        >
-          <GenericSkeleton className="h-6 w-3/4" count={1} />
-          <GenericSkeleton className="h-4 w-full" count={1} />
-          <GenericSkeleton className="h-4 w-5/6" count={1} />
-          <div className="space-y-2">
-            <GenericSkeleton className="h-4 w-full" count={1} />
-            <GenericSkeleton className="h-4 w-full" count={1} />
-            <GenericSkeleton className="h-4 w-3/4" count={1} />
+        <div key={i} className='bg-surface border-border space-y-4 rounded-lg border p-6 shadow-sm'>
+          <GenericSkeleton className='h-6 w-3/4' count={1} />
+          <GenericSkeleton className='h-4 w-full' count={1} />
+          <GenericSkeleton className='h-4 w-5/6' count={1} />
+          <div className='space-y-2'>
+            <GenericSkeleton className='h-4 w-full' count={1} />
+            <GenericSkeleton className='h-4 w-full' count={1} />
+            <GenericSkeleton className='h-4 w-3/4' count={1} />
           </div>
-          <GenericSkeleton className="h-10 w-full" count={1} />
+          <GenericSkeleton className='h-10 w-full' count={1} />
         </div>
       ))}
     </>
@@ -64,21 +64,21 @@ const EventCardVariant: React.FC<{ count?: number }> = ({ count = 1 }) => {
  */
 const EventDetailsVariant: React.FC = () => {
   return (
-    <div className="bg-surface border border-border rounded-lg p-6 shadow-sm space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 space-y-2">
-          <GenericSkeleton className="h-8 w-3/4" count={1} />
-          <GenericSkeleton className="h-4 w-1/2" count={1} />
+    <div className='bg-surface border-border space-y-6 rounded-lg border p-6 shadow-sm'>
+      <div className='flex items-start justify-between gap-4'>
+        <div className='flex-1 space-y-2'>
+          <GenericSkeleton className='h-8 w-3/4' count={1} />
+          <GenericSkeleton className='h-4 w-1/2' count={1} />
         </div>
-        <GenericSkeleton className="h-6 w-20" count={1} />
+        <GenericSkeleton className='h-6 w-20' count={1} />
       </div>
 
-      <GenericSkeleton className="h-24 w-full" count={1} />
+      <GenericSkeleton className='h-24 w-full' count={1} />
 
-      <div className="space-y-3">
-        <GenericSkeleton className="h-5 w-full" count={1} />
-        <GenericSkeleton className="h-5 w-full" count={1} />
-        <GenericSkeleton className="h-5 w-3/4" count={1} />
+      <div className='space-y-3'>
+        <GenericSkeleton className='h-5 w-full' count={1} />
+        <GenericSkeleton className='h-5 w-full' count={1} />
+        <GenericSkeleton className='h-5 w-3/4' count={1} />
       </div>
     </div>
   );
@@ -91,18 +91,15 @@ const ReservationVariant: React.FC<{ count?: number }> = ({ count = 1 }) => {
   return (
     <>
       {Array.from({ length: count }).map((_, i) => (
-        <div
-          key={i}
-          className="bg-surface border border-border rounded-lg p-4 shadow-sm space-y-3"
-        >
-          <div className="flex items-center justify-between">
-            <GenericSkeleton className="h-5 w-2/3" count={1} />
-            <GenericSkeleton className="h-5 w-20" count={1} />
+        <div key={i} className='bg-surface border-border space-y-3 rounded-lg border p-4 shadow-sm'>
+          <div className='flex items-center justify-between'>
+            <GenericSkeleton className='h-5 w-2/3' count={1} />
+            <GenericSkeleton className='h-5 w-20' count={1} />
           </div>
-          <GenericSkeleton className="h-4 w-full" count={1} />
-          <div className="flex gap-2">
-            <GenericSkeleton className="h-4 w-24" count={1} />
-            <GenericSkeleton className="h-4 w-24" count={1} />
+          <GenericSkeleton className='h-4 w-full' count={1} />
+          <div className='flex gap-2'>
+            <GenericSkeleton className='h-4 w-24' count={1} />
+            <GenericSkeleton className='h-4 w-24' count={1} />
           </div>
         </div>
       ))}
@@ -117,8 +114,8 @@ const TableRowVariant: React.FC<{ columns?: number }> = ({ columns = 4 }) => {
   return (
     <tr>
       {Array.from({ length: columns }).map((_, i) => (
-        <td key={i} className="px-4 py-3">
-          <GenericSkeleton className="h-4 w-full" count={1} />
+        <td key={i} className='px-4 py-3'>
+          <GenericSkeleton className='h-4 w-full' count={1} />
         </td>
       ))}
     </tr>
@@ -130,19 +127,19 @@ const TableRowVariant: React.FC<{ columns?: number }> = ({ columns = 4 }) => {
  */
 const ProfileVariant: React.FC = () => {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <GenericSkeleton className="h-16 w-16 rounded-full" count={1} />
-        <div className="space-y-2 flex-1">
-          <GenericSkeleton className="h-6 w-1/3" count={1} />
-          <GenericSkeleton className="h-4 w-1/2" count={1} />
+    <div className='space-y-6'>
+      <div className='flex items-center gap-4'>
+        <GenericSkeleton className='h-16 w-16 rounded-full' count={1} />
+        <div className='flex-1 space-y-2'>
+          <GenericSkeleton className='h-6 w-1/3' count={1} />
+          <GenericSkeleton className='h-4 w-1/2' count={1} />
         </div>
       </div>
 
-      <div className="bg-surface border border-border rounded-lg p-4 space-y-3">
-        <GenericSkeleton className="h-5 w-1/4" count={1} />
-        <GenericSkeleton className="h-4 w-full" count={1} />
-        <GenericSkeleton className="h-4 w-3/4" count={1} />
+      <div className='bg-surface border-border space-y-3 rounded-lg border p-4'>
+        <GenericSkeleton className='h-5 w-1/4' count={1} />
+        <GenericSkeleton className='h-4 w-full' count={1} />
+        <GenericSkeleton className='h-4 w-3/4' count={1} />
       </div>
     </div>
   );
@@ -150,11 +147,11 @@ const ProfileVariant: React.FC = () => {
 
 /**
  * Skeleton Component - Polymorphic component that renders different skeleton types
- * 
+ *
  * @param type - Skeleton type: 'generic' | 'event-card' | 'event-details' | 'reservation' | 'table-row' | 'profile'
  * @param count - Number of items (for generic, event-card, reservation)
  * @param columns - Number of columns (for table-row)
- * 
+ *
  * @example
  * <Skeleton type="event-card" count={3} />
  * <Skeleton type="event-details" />
@@ -178,6 +175,6 @@ export const Skeleton: React.FC<SkeletonVariantProps> = ({
       return <ProfileVariant />;
     case 'generic':
     default:
-      return <GenericSkeleton className="h-12 w-full" count={count} />;
+      return <GenericSkeleton className='h-12 w-full' count={count} />;
   }
 };

@@ -37,7 +37,7 @@ jest.mock('@/components/ui', () => ({
     </div>
   ),
   ErrorAlert: ({ title, message }: { title: string; message: string }) => (
-    <div role="alert">
+    <div role='alert'>
       <h2>{title}</h2>
       <p>{message}</p>
     </div>
@@ -45,7 +45,7 @@ jest.mock('@/components/ui', () => ({
   Skeleton: ({ count }: { type: string; count: number }) => (
     <div data-testid={`skeleton-${count}`}>
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} data-testid="skeleton-item">
+        <div key={i} data-testid='skeleton-item'>
           Loading...
         </div>
       ))}
@@ -112,7 +112,7 @@ describe('EventsList', () => {
   describe('Loading State', () => {
     it('should display skeleton loaders while fetching events', () => {
       (eventsApi.eventsApi.getAllEvents as jest.Mock).mockImplementation(
-        () => new Promise((resolve) => setTimeout(() => resolve({ events: mockEvents }), 100))
+        () => new Promise((resolve) => setTimeout(() => resolve({ events: mockEvents }), 100)),
       );
 
       render(<EventsList />);
@@ -122,7 +122,7 @@ describe('EventsList', () => {
 
     it('should show loading state with correct number of skeleton items', () => {
       (eventsApi.eventsApi.getAllEvents as jest.Mock).mockImplementation(
-        () => new Promise(() => {}) // Never resolves
+        () => new Promise(() => {}), // Never resolves
       );
 
       render(<EventsList />);
@@ -224,7 +224,7 @@ describe('EventsList', () => {
         () => {
           expect(screen.getByText('No Events Available')).toBeInTheDocument();
         },
-        { timeout: 3000 }
+        { timeout: 3000 },
       );
     });
 
@@ -240,7 +240,7 @@ describe('EventsList', () => {
         () => {
           expect(screen.getByText('No Events Available')).toBeInTheDocument();
         },
-        { timeout: 3000 }
+        { timeout: 3000 },
       );
     });
   });
@@ -248,7 +248,7 @@ describe('EventsList', () => {
   describe('Error State', () => {
     it('should display error alert when API call fails', async () => {
       (eventsApi.eventsApi.getAllEvents as jest.Mock).mockRejectedValue(
-        new Error('Failed to fetch events')
+        new Error('Failed to fetch events'),
       );
 
       render(<EventsList />);
@@ -259,14 +259,12 @@ describe('EventsList', () => {
           expect(screen.getByText('Error Loading Events')).toBeInTheDocument();
           expect(screen.getByText(/Failed to load events/i)).toBeInTheDocument();
         },
-        { timeout: 3000 }
+        { timeout: 3000 },
       );
     });
 
     it('should display error dismiss button', async () => {
-      (eventsApi.eventsApi.getAllEvents as jest.Mock).mockRejectedValue(
-        new Error('Network error')
-      );
+      (eventsApi.eventsApi.getAllEvents as jest.Mock).mockRejectedValue(new Error('Network error'));
 
       render(<EventsList />);
 

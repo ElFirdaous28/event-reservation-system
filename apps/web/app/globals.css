@@ -1,43 +1,43 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   /* Light mode */
-  --background: #F9FAFF;
-  --foreground: #0B0E2E;
+  --background: #f9faff;
+  --foreground: #0b0e2e;
 
-  --surface: #FFFFFF;
-  --border: #E4E6F1;
+  --surface: #ffffff;
+  --border: #e4e6f1;
 
-  --primary: #FD2D67;
-  --primary-hover: #E8265C;
-  --primary-soft: #FD2D671A;
+  --primary: #fd2d67;
+  --primary-hover: #e8265c;
+  --primary-soft: #fd2d671a;
 
-  --text-muted: #5E628F;
+  --text-muted: #5e628f;
 
-  --success: #16A34A;
-  --warning: #F59E0B;
-  --error: #DC2626;
-  --info: #0284C7;
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --error: #dc2626;
+  --info: #0284c7;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #06072A;
-    --foreground: #EDEEFF;
+    --background: #06072a;
+    --foreground: #edeeff;
 
-    --surface: #0E103C;
-    --border: #1C1F5A;
+    --surface: #0e103c;
+    --border: #1c1f5a;
 
-    --primary: #FD2D67;
-    --primary-hover: #E8265C;
-    --primary-soft: #FD2D6720;
+    --primary: #fd2d67;
+    --primary-hover: #e8265c;
+    --primary-soft: #fd2d6720;
 
-    --text-muted: #A6A8D3;
+    --text-muted: #a6a8d3;
 
-    --success: #2ED573;
-    --warning: #FBBF24;
-    --error: #EF4444;
-    --info: #38BDF8;
+    --success: #2ed573;
+    --warning: #fbbf24;
+    --error: #ef4444;
+    --info: #38bdf8;
   }
 }
 

@@ -148,7 +148,9 @@ describe('RegisterForm', () => {
 
       await user.type(fullNameInput, 'Jane Doe');
       await waitFor(() => {
-        expect(screen.queryByText(/full name must be at least 2 characters/i)).not.toBeInTheDocument();
+        expect(
+          screen.queryByText(/full name must be at least 2 characters/i),
+        ).not.toBeInTheDocument();
       });
     });
   });
@@ -400,9 +402,7 @@ describe('RegisterForm', () => {
 
     it('should show loading state during submission', async () => {
       const user = userEvent.setup();
-      mockRegister.mockImplementation(
-        () => new Promise((resolve) => setTimeout(resolve, 100))
-      );
+      mockRegister.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)));
 
       render(<RegisterForm />);
 
@@ -513,9 +513,7 @@ describe('RegisterForm', () => {
 
     it('should disable form inputs during API request', async () => {
       const user = userEvent.setup();
-      mockRegister.mockImplementation(
-        () => new Promise((resolve) => setTimeout(resolve, 100))
-      );
+      mockRegister.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)));
 
       render(<RegisterForm />);
 
@@ -615,7 +613,9 @@ describe('RegisterForm', () => {
 
       await waitFor(() => {
         // Find the error container div with bg-error class
-        const errorContainer = screen.getByText(/email is already registered/i).closest('div[class*="bg-error"]');
+        const errorContainer = screen
+          .getByText(/email is already registered/i)
+          .closest('div[class*="bg-error"]');
         expect(errorContainer).toBeInTheDocument();
         expect(errorContainer?.className).toContain('bg-error');
       });
@@ -646,7 +646,9 @@ describe('RegisterForm', () => {
       });
 
       // No validation errors should be displayed
-      expect(screen.queryByText(/full name must be at least 2 characters/i)).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(/full name must be at least 2 characters/i),
+      ).not.toBeInTheDocument();
       expect(screen.queryByText(/invalid email/i)).not.toBeInTheDocument();
       expect(screen.queryByText(/password must be at least 6 characters/i)).not.toBeInTheDocument();
       expect(screen.queryByText(/passwords don't match/i)).not.toBeInTheDocument();

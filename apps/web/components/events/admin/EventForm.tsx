@@ -25,7 +25,9 @@ export default function EventForm({
   const [date, setDate] = useState(initialValues.date ?? '');
   const [location, setLocation] = useState(initialValues.location ?? '');
   const [capacity, setCapacity] = useState(String(initialValues.capacity ?? 1));
-  const [availableSeats, setAvailableSeats] = useState(String((initialValues as any).availableSeats ?? initialValues.capacity ?? 1));
+  const [availableSeats, setAvailableSeats] = useState(
+    String((initialValues as any).availableSeats ?? initialValues.capacity ?? 1),
+  );
   const [errors, setErrors] = useState<FieldErrors>({});
   const [generalError, setGeneralError] = useState<string | null>(null);
 
@@ -73,91 +75,106 @@ export default function EventForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className='space-y-4'>
       {generalError && (
-        <div className="p-3 rounded-lg bg-error/10 border border-error/20 text-error text-sm">
+        <div className='bg-error/10 border-error/20 text-error rounded-lg border p-3 text-sm'>
           {generalError}
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium text-muted">Title</label>
+        <label className='text-muted block text-sm font-medium'>Title</label>
         <input
-          type="text"
+          type='text'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className={`mt-1 block w-full border rounded px-3 py-2 bg-surface text-foreground focus:outline-none focus:ring-2 ${errors.title ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
-            }`}
+          className={`bg-surface text-foreground mt-1 block w-full rounded border px-3 py-2 focus:ring-2 focus:outline-none ${
+            errors.title ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
+          }`}
         />
-        {errors.title && <p className="mt-1 text-sm text-error">{errors.title}</p>}
+        {errors.title && <p className='text-error mt-1 text-sm'>{errors.title}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-muted">Description</label>
+        <label className='text-muted block text-sm font-medium'>Description</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
-          className={`mt-1 block w-full border rounded px-3 py-2 bg-surface text-foreground focus:outline-none focus:ring-2 ${errors.description ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
-            }`}
+          className={`bg-surface text-foreground mt-1 block w-full rounded border px-3 py-2 focus:ring-2 focus:outline-none ${
+            errors.description
+              ? 'border-error focus:ring-error'
+              : 'border-border focus:ring-primary'
+          }`}
         />
-        {errors.description && <p className="mt-1 text-sm text-error">{errors.description}</p>}
+        {errors.description && <p className='text-error mt-1 text-sm'>{errors.description}</p>}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
         <div>
-          <label className="block text-sm font-medium text-muted">Date</label>
+          <label className='text-muted block text-sm font-medium'>Date</label>
           <input
-            type="date"
+            type='date'
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className={`mt-1 block w-full border rounded px-3 py-2 bg-surface text-foreground focus:outline-none focus:ring-2 ${errors.date ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
-              }`}
+            className={`bg-surface text-foreground mt-1 block w-full rounded border px-3 py-2 focus:ring-2 focus:outline-none ${
+              errors.date ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
+            }`}
           />
-          {errors.date && <p className="mt-1 text-sm text-error">{errors.date}</p>}
+          {errors.date && <p className='text-error mt-1 text-sm'>{errors.date}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-muted">Capacity</label>
+          <label className='text-muted block text-sm font-medium'>Capacity</label>
           <input
-            type="number"
+            type='number'
             value={capacity}
-            onChange={(e) => { setCapacity(e.target.value); setAvailableSeats(e.target.value) }}
-            className={`mt-1 block w-full border rounded px-3 py-2 bg-surface text-foreground focus:outline-none focus:ring-2 ${errors.capacity ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
-              }`}
+            onChange={(e) => {
+              setCapacity(e.target.value);
+              setAvailableSeats(e.target.value);
+            }}
+            className={`bg-surface text-foreground mt-1 block w-full rounded border px-3 py-2 focus:ring-2 focus:outline-none ${
+              errors.capacity ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
+            }`}
           />
-          {errors.capacity && <p className="mt-1 text-sm text-error">{errors.capacity}</p>}
+          {errors.capacity && <p className='text-error mt-1 text-sm'>{errors.capacity}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-muted">Available Seats</label>
+          <label className='text-muted block text-sm font-medium'>Available Seats</label>
           <input
-            type="number"
+            type='number'
             value={availableSeats}
             onChange={(e) => setAvailableSeats(e.target.value)}
-            className={`mt-1 block w-full border rounded px-3 py-2 bg-surface text-foreground focus:outline-none focus:ring-2 ${errors.availableSeats ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
-              }`}
+            className={`bg-surface text-foreground mt-1 block w-full rounded border px-3 py-2 focus:ring-2 focus:outline-none ${
+              errors.availableSeats
+                ? 'border-error focus:ring-error'
+                : 'border-border focus:ring-primary'
+            }`}
           />
-          {errors.availableSeats && <p className="mt-1 text-sm text-error">{errors.availableSeats}</p>}
-          <p className="mt-1 text-xs text-muted">Set lower than capacity to reserve VIP seats</p>
+          {errors.availableSeats && (
+            <p className='text-error mt-1 text-sm'>{errors.availableSeats}</p>
+          )}
+          <p className='text-muted mt-1 text-xs'>Set lower than capacity to reserve VIP seats</p>
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-muted">Location</label>
+        <label className='text-muted block text-sm font-medium'>Location</label>
         <input
-          type="text"
+          type='text'
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className={`mt-1 block w-full border rounded px-3 py-2 bg-surface text-foreground focus:outline-none focus:ring-2 ${errors.location ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
-            }`}
+          className={`bg-surface text-foreground mt-1 block w-full rounded border px-3 py-2 focus:ring-2 focus:outline-none ${
+            errors.location ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'
+          }`}
         />
-        {errors.location && <p className="mt-1 text-sm text-error">{errors.location}</p>}
+        {errors.location && <p className='text-error mt-1 text-sm'>{errors.location}</p>}
       </div>
 
       <button
-        type="submit"
-        className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-hover disabled:opacity-50"
+        type='submit'
+        className='bg-primary hover:bg-primary-hover rounded px-4 py-2 text-white disabled:opacity-50'
         disabled={loading}
       >
         {loading ? 'Saving...' : submitLabel}

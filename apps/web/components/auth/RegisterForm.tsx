@@ -67,81 +67,79 @@ export function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {apiError && (
-        <div className="p-4 bg-error text-white rounded-lg">
-          {apiError}
-        </div>
-      )}
+    <form onSubmit={handleSubmit} className='space-y-4'>
+      {apiError && <div className='bg-error rounded-lg p-4 text-white'>{apiError}</div>}
 
       <div>
-        <label className="block text-sm font-medium mb-1">Full Name</label>
+        <label className='mb-1 block text-sm font-medium'>Full Name</label>
         <input
-          type="text"
-          name="fullName"
+          type='text'
+          name='fullName'
           value={formData.fullName}
           onChange={handleChange}
-          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+          className={`focus:ring-primary w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none ${
             errors.fullName ? 'border-error' : 'border-border'
           }`}
-          placeholder="John Doe"
+          placeholder='John Doe'
           disabled={isLoading}
         />
-        {errors.fullName && <p className="text-error text-sm mt-1">{errors.fullName}</p>}
+        {errors.fullName && <p className='text-error mt-1 text-sm'>{errors.fullName}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Email</label>
+        <label className='mb-1 block text-sm font-medium'>Email</label>
         <input
-          type="email"
-          name="email"
+          type='email'
+          name='email'
           value={formData.email}
           onChange={handleChange}
-          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+          className={`focus:ring-primary w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none ${
             errors.email ? 'border-error' : 'border-border'
           }`}
-          placeholder="you@example.com"
+          placeholder='you@example.com'
           disabled={isLoading}
         />
-        {errors.email && <p className="text-error text-sm mt-1">{errors.email}</p>}
+        {errors.email && <p className='text-error mt-1 text-sm'>{errors.email}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Password</label>
+        <label className='mb-1 block text-sm font-medium'>Password</label>
         <input
-          type="password"
-          name="password"
+          type='password'
+          name='password'
           value={formData.password}
           onChange={handleChange}
-          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+          className={`focus:ring-primary w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none ${
             errors.password ? 'border-error' : 'border-border'
           }`}
-          placeholder="••••••"
+          placeholder='••••••'
           disabled={isLoading}
         />
-        {errors.password && <p className="text-error text-sm mt-1">{errors.password}</p>}
+        {errors.password && <p className='text-error mt-1 text-sm'>{errors.password}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Confirm Password</label>
+        <label className='mb-1 block text-sm font-medium'>Confirm Password</label>
         <input
-          type="password"
-          name="confirmPassword"
+          type='password'
+          name='confirmPassword'
           value={formData.confirmPassword}
           onChange={handleChange}
-          className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+          className={`focus:ring-primary w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none ${
             errors.confirmPassword ? 'border-error' : 'border-border'
           }`}
-          placeholder="••••••"
+          placeholder='••••••'
           disabled={isLoading}
         />
-        {errors.confirmPassword && <p className="text-error text-sm mt-1">{errors.confirmPassword}</p>}
+        {errors.confirmPassword && (
+          <p className='text-error mt-1 text-sm'>{errors.confirmPassword}</p>
+        )}
       </div>
 
       <button
-        type="submit"
+        type='submit'
         disabled={isLoading}
-        className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-hover disabled:opacity-50 transition-colors font-medium"
+        className='bg-primary hover:bg-primary-hover w-full rounded-lg py-2 font-medium text-white transition-colors disabled:opacity-50'
       >
         {isLoading ? 'Creating account...' : 'Register'}
       </button>

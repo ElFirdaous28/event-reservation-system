@@ -42,9 +42,7 @@ export default function AdminReservationsPage() {
   }, []);
 
   const filteredReservations =
-    filter === 'all'
-      ? reservations
-      : reservations.filter((r) => r.status === filter);
+    filter === 'all' ? reservations : reservations.filter((r) => r.status === filter);
 
   const statusCounts = {
     all: stats.total,
@@ -56,10 +54,10 @@ export default function AdminReservationsPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-foreground mb-8">Manage Reservations</h1>
-        <div className="grid grid-cols-1 gap-6">
-          <Skeleton type="reservation" count={5} />
+      <div className='container mx-auto px-4 py-8'>
+        <h1 className='text-foreground mb-8 text-3xl font-bold'>Manage Reservations</h1>
+        <div className='grid grid-cols-1 gap-6'>
+          <Skeleton type='reservation' count={5} />
         </div>
       </div>
     );
@@ -67,10 +65,10 @@ export default function AdminReservationsPage() {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-foreground mb-8">Manage Reservations</h1>
+      <div className='container mx-auto px-4 py-8'>
+        <h1 className='text-foreground mb-8 text-3xl font-bold'>Manage Reservations</h1>
         <ErrorAlert
-          title="Error Loading Reservations"
+          title='Error Loading Reservations'
           message={error}
           onDismiss={() => setError(null)}
         />
@@ -79,57 +77,61 @@ export default function AdminReservationsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Manage Reservations</h1>
-        <p className="text-muted">View and manage all event reservations</p>
+    <div className='container mx-auto px-4 py-8'>
+      <div className='mb-8'>
+        <h1 className='text-foreground mb-2 text-3xl font-bold'>Manage Reservations</h1>
+        <p className='text-muted'>View and manage all event reservations</p>
       </div>
 
       {/* Statistics Cards */}
       {reservations.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          <div className="bg-surface border border-border rounded-lg p-4">
-            <p className="text-xs font-medium text-muted uppercase">Total</p>
-            <p className="text-2xl font-bold text-foreground mt-1">
-              {statusCounts.all}
-            </p>
+        <div className='mb-8 grid grid-cols-2 gap-4 md:grid-cols-5'>
+          <div className='bg-surface border-border rounded-lg border p-4'>
+            <p className='text-muted text-xs font-medium uppercase'>Total</p>
+            <p className='text-foreground mt-1 text-2xl font-bold'>{statusCounts.all}</p>
           </div>
           <div
-            className="bg-surface border border-border rounded-lg p-4"
-            style={{ borderLeftColor: 'var(--warning)', borderLeftWidth: '4px' }}
+            className='bg-surface border-border rounded-lg border p-4'
+            style={{
+              borderLeftColor: 'var(--warning)',
+              borderLeftWidth: '4px',
+            }}
           >
-            <p className="text-xs font-medium text-muted uppercase">Pending</p>
-            <p className="text-2xl font-bold mt-1" style={{ color: 'var(--warning)' }}>
+            <p className='text-muted text-xs font-medium uppercase'>Pending</p>
+            <p className='mt-1 text-2xl font-bold' style={{ color: 'var(--warning)' }}>
               {statusCounts[ReservationStatus.PENDING]}
             </p>
           </div>
           <div
-            className="bg-surface border border-border rounded-lg p-4"
-            style={{ borderLeftColor: 'var(--success)', borderLeftWidth: '4px' }}
+            className='bg-surface border-border rounded-lg border p-4'
+            style={{
+              borderLeftColor: 'var(--success)',
+              borderLeftWidth: '4px',
+            }}
           >
-            <p className="text-xs font-medium text-muted uppercase">Confirmed</p>
-            <p className="text-2xl font-bold mt-1" style={{ color: 'var(--success)' }}>
+            <p className='text-muted text-xs font-medium uppercase'>Confirmed</p>
+            <p className='mt-1 text-2xl font-bold' style={{ color: 'var(--success)' }}>
               {statusCounts[ReservationStatus.CONFIRMED]}
             </p>
           </div>
           <div
-            className="bg-surface border border-border rounded-lg p-4"
+            className='bg-surface border-border rounded-lg border p-4'
             style={{ borderLeftColor: 'var(--error)', borderLeftWidth: '4px' }}
           >
-            <p className="text-xs font-medium text-muted uppercase">Refused</p>
-            <p className="text-2xl font-bold mt-1" style={{ color: 'var(--error)' }}>
+            <p className='text-muted text-xs font-medium uppercase'>Refused</p>
+            <p className='mt-1 text-2xl font-bold' style={{ color: 'var(--error)' }}>
               {statusCounts[ReservationStatus.REFUSED]}
             </p>
           </div>
           <div
-            className="bg-surface border border-border rounded-lg p-4"
+            className='bg-surface border-border rounded-lg border p-4'
             style={{
               borderLeftColor: 'var(--text-muted)',
               borderLeftWidth: '4px',
             }}
           >
-            <p className="text-xs font-medium text-muted uppercase">Canceled</p>
-            <p className="text-2xl font-bold mt-1" style={{ color: 'var(--text-muted)' }}>
+            <p className='text-muted text-xs font-medium uppercase'>Canceled</p>
+            <p className='mt-1 text-2xl font-bold' style={{ color: 'var(--text-muted)' }}>
               {statusCounts[ReservationStatus.CANCELED]}
             </p>
           </div>
@@ -138,13 +140,13 @@ export default function AdminReservationsPage() {
 
       {/* Filter Tabs */}
       {reservations.length > 0 && (
-        <div className="mb-6 flex flex-wrap gap-2 border-b border-border pb-4">
+        <div className='border-border mb-6 flex flex-wrap gap-2 border-b pb-4'>
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm ${
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               filter === 'all'
                 ? 'text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
             style={filter === 'all' ? { backgroundColor: 'var(--primary)' } : {}}
           >
@@ -152,60 +154,50 @@ export default function AdminReservationsPage() {
           </button>
           <button
             onClick={() => setFilter(ReservationStatus.PENDING)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm ${
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               filter === ReservationStatus.PENDING
                 ? 'text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
             style={
-              filter === ReservationStatus.PENDING
-                ? { backgroundColor: 'var(--warning)' }
-                : {}
+              filter === ReservationStatus.PENDING ? { backgroundColor: 'var(--warning)' } : {}
             }
           >
             Pending ({statusCounts[ReservationStatus.PENDING]})
           </button>
           <button
             onClick={() => setFilter(ReservationStatus.CONFIRMED)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm ${
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               filter === ReservationStatus.CONFIRMED
                 ? 'text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
             style={
-              filter === ReservationStatus.CONFIRMED
-                ? { backgroundColor: 'var(--success)' }
-                : {}
+              filter === ReservationStatus.CONFIRMED ? { backgroundColor: 'var(--success)' } : {}
             }
           >
             Confirmed ({statusCounts[ReservationStatus.CONFIRMED]})
           </button>
           <button
             onClick={() => setFilter(ReservationStatus.REFUSED)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm ${
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               filter === ReservationStatus.REFUSED
                 ? 'text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
-            style={
-              filter === ReservationStatus.REFUSED
-                ? { backgroundColor: 'var(--error)' }
-                : {}
-            }
+            style={filter === ReservationStatus.REFUSED ? { backgroundColor: 'var(--error)' } : {}}
           >
             Refused ({statusCounts[ReservationStatus.REFUSED]})
           </button>
           <button
             onClick={() => setFilter(ReservationStatus.CANCELED)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm ${
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               filter === ReservationStatus.CANCELED
                 ? 'text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
             style={
-              filter === ReservationStatus.CANCELED
-                ? { backgroundColor: 'var(--text-muted)' }
-                : {}
+              filter === ReservationStatus.CANCELED ? { backgroundColor: 'var(--text-muted)' } : {}
             }
           >
             Canceled ({statusCounts[ReservationStatus.CANCELED]})
@@ -224,7 +216,7 @@ export default function AdminReservationsPage() {
           }
         />
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
           {filteredReservations.map((reservation) => (
             <AdminReservationCard
               key={reservation._id}

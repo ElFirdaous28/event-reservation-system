@@ -42,7 +42,7 @@ axiosInstance.interceptors.request.use(
   },
   (error: AxiosError) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor - Handle 401 errors and token refresh
@@ -76,7 +76,7 @@ axiosInstance.interceptors.response.use(
         const response = await axios.post(
           `${baseURL}/api/auth/refresh`,
           {},
-          { withCredentials: true }
+          { withCredentials: true },
         );
         const newToken = response.data.accessToken;
         accessToken = newToken;
@@ -101,7 +101,7 @@ axiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // Export function to set token (called by AuthProvider)

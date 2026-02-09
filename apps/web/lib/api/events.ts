@@ -1,10 +1,10 @@
 import apiClient from '../axios';
 import {
-    CreateEventDto,
-    UpdateEventDto,
-    ChangeEventStatusDto,
-    EventFilters,
-    EventsResponse
+  CreateEventDto,
+  UpdateEventDto,
+  ChangeEventStatusDto,
+  EventFilters,
+  EventsResponse,
 } from '@repo/shared';
 
 export const eventsApi = {

@@ -6,7 +6,6 @@ import { EmptyState, ErrorAlert, Skeleton } from '@/components/ui';
 import { ReservationCard } from '@/components/reservations';
 import { ReservationStatus, SafeReservation } from '@repo/shared';
 
-
 export default function MyReservationsPage() {
   const [reservations, setReservations] = useState<SafeReservation[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,16 +31,14 @@ export default function MyReservationsPage() {
   }, []);
 
   const filteredReservations =
-    filter === 'all'
-      ? reservations
-      : reservations.filter((r) => r.status === filter);
+    filter === 'all' ? reservations : reservations.filter((r) => r.status === filter);
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-foreground mb-8">My Reservations</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Skeleton type="reservation" count={4} />
+      <div className='container mx-auto px-4 py-8'>
+        <h1 className='text-foreground mb-8 text-3xl font-bold'>My Reservations</h1>
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+          <Skeleton type='reservation' count={4} />
         </div>
       </div>
     );
@@ -49,10 +46,10 @@ export default function MyReservationsPage() {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-foreground mb-8">My Reservations</h1>
+      <div className='container mx-auto px-4 py-8'>
+        <h1 className='text-foreground mb-8 text-3xl font-bold'>My Reservations</h1>
         <ErrorAlert
-          title="Error Loading Reservations"
+          title='Error Loading Reservations'
           message={error}
           onDismiss={() => setError(null)}
         />
@@ -61,57 +58,55 @@ export default function MyReservationsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">My Reservations</h1>
-        <p className="text-muted">View and manage your event reservations</p>
+    <div className='container mx-auto px-4 py-8'>
+      <div className='mb-8'>
+        <h1 className='text-foreground mb-2 text-3xl font-bold'>My Reservations</h1>
+        <p className='text-muted'>View and manage your event reservations</p>
       </div>
 
       {/* Filter Tabs */}
       {reservations.length > 0 && (
-        <div className="mb-6 flex flex-wrap gap-2">
+        <div className='mb-6 flex flex-wrap gap-2'>
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`rounded-lg px-4 py-2 font-medium transition-colors ${
               filter === 'all'
                 ? 'bg-primary text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
           >
             All ({reservations.length})
           </button>
           <button
             onClick={() => setFilter(ReservationStatus.CONFIRMED)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`rounded-lg px-4 py-2 font-medium transition-colors ${
               filter === ReservationStatus.CONFIRMED
                 ? 'bg-primary text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
           >
-            Confirmed (
-            {reservations.filter((r) => r.status === ReservationStatus.CONFIRMED).length})
+            Confirmed ({reservations.filter((r) => r.status === ReservationStatus.CONFIRMED).length}
+            )
           </button>
           <button
             onClick={() => setFilter(ReservationStatus.PENDING)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`rounded-lg px-4 py-2 font-medium transition-colors ${
               filter === ReservationStatus.PENDING
                 ? 'bg-primary text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
           >
-            Pending (
-            {reservations.filter((r) => r.status === ReservationStatus.PENDING).length})
+            Pending ({reservations.filter((r) => r.status === ReservationStatus.PENDING).length})
           </button>
           <button
             onClick={() => setFilter(ReservationStatus.CANCELED)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`rounded-lg px-4 py-2 font-medium transition-colors ${
               filter === ReservationStatus.CANCELED
                 ? 'bg-primary text-white'
-                : 'bg-surface border border-border text-foreground hover:bg-gray-50'
+                : 'bg-surface border-border text-foreground border hover:bg-gray-50'
             }`}
           >
-            Canceled (
-            {reservations.filter((r) => r.status === ReservationStatus.CANCELED).length})
+            Canceled ({reservations.filter((r) => r.status === ReservationStatus.CANCELED).length})
           </button>
         </div>
       )}
@@ -127,7 +122,7 @@ export default function MyReservationsPage() {
           }
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
           {filteredReservations.map((reservation) => (
             <ReservationCard
               key={reservation._id || reservation._id}

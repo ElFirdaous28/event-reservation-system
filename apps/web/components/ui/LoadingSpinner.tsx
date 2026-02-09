@@ -17,17 +17,13 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
   const spinner = (
     <div className={`${sizeClasses[size]} animate-spin`}>
-      <div className="h-full w-full border-4 border-border border-t-primary rounded-full" />
+      <div className='border-border border-t-primary h-full w-full rounded-full border-4' />
     </div>
   );
 
   if (fullScreen) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        {spinner}
-      </div>
-    );
+    return <div className='flex min-h-screen items-center justify-center'>{spinner}</div>;
   }
 
-  return <div className="flex items-center justify-center">{spinner}</div>;
+  return <div className='flex items-center justify-center'>{spinner}</div>;
 };

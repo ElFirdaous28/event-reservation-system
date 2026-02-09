@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export default function page() {
-  return (
-    <div>participant dashboard</div>
-  )
+  return <div>participant dashboard</div>;
 }

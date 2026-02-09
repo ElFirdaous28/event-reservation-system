@@ -44,7 +44,7 @@ describe('EventCard', () => {
 
       expect(screen.getByText('Tech Conference 2024')).toBeInTheDocument();
       expect(
-        screen.getByText('A comprehensive technology conference featuring industry experts')
+        screen.getByText('A comprehensive technology conference featuring industry experts'),
       ).toBeInTheDocument();
       expect(screen.getByText('San Francisco, CA')).toBeInTheDocument();
       expect(screen.getByText('Monday, January 15, 2024')).toBeInTheDocument();
@@ -60,7 +60,10 @@ describe('EventCard', () => {
     it('should render event title as heading', () => {
       render(<EventCard event={mockEvent} />);
 
-      const heading = screen.getByRole('heading', { level: 2, name: /Tech Conference 2024/i });
+      const heading = screen.getByRole('heading', {
+        level: 2,
+        name: /Tech Conference 2024/i,
+      });
       expect(heading).toBeInTheDocument();
     });
 
@@ -174,7 +177,7 @@ describe('EventCard', () => {
           {events.map((event) => (
             <EventCard key={event._id} event={event} />
           ))}
-        </>
+        </>,
       );
 
       expect(screen.getByText('Tech Conference 2024')).toBeInTheDocument();

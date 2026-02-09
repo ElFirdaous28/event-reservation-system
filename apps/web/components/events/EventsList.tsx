@@ -34,37 +34,32 @@ export function EventsList() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Skeleton type="event-card" count={6} />
+      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
+        <Skeleton type='event-card' count={6} />
       </div>
     );
   }
 
   if (error) {
     return (
-      <ErrorAlert
-        title="Error Loading Events"
-        message={error}
-        onDismiss={() => setError(null)}
-      />
+      <ErrorAlert title='Error Loading Events' message={error} onDismiss={() => setError(null)} />
     );
   }
 
   if (events.length === 0) {
     return (
       <EmptyState
-        title="No Events Available"
-        message="There are no events available at the moment. Please check back later!"
+        title='No Events Available'
+        message='There are no events available at the moment. Please check back later!'
       />
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
       {events.map((event) => (
         <EventCard key={event._id ?? event._id} event={event} />
       ))}
     </div>
   );
 }
- 

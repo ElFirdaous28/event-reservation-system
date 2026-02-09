@@ -9,24 +9,24 @@ export default function Page() {
 
   if (isLoading) {
     return (
-      <div className="max-w-2xl mx-auto py-8 flex justify-center">
-        <LoadingSpinner size="lg" />
+      <div className='mx-auto flex max-w-2xl justify-center py-8'>
+        <LoadingSpinner size='lg' />
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto py-8">
-      <PageHeader title="Profile" subtitle="Manage your account" />
+    <div className='mx-auto max-w-2xl py-8'>
+      <PageHeader title='Profile' subtitle='Manage your account' />
 
-      <div className="space-y-6 mt-6">
-        <section className="bg-surface border border-border rounded-lg p-6">
-          <h3 className="text-lg font-medium mb-4">Update profile</h3>
+      <div className='mt-6 space-y-6'>
+        <section className='bg-surface border-border rounded-lg border p-6'>
+          <h3 className='mb-4 text-lg font-medium'>Update profile</h3>
           <UpdateProfileForm user={user} />
         </section>
 
-        <section className="bg-surface border border-border rounded-lg p-6">
-          <h3 className="text-lg font-medium mb-4">Change password</h3>
+        <section className='bg-surface border-border rounded-lg border p-6'>
+          <h3 className='mb-4 text-lg font-medium'>Change password</h3>
           <ChangePasswordForm />
         </section>
       </div>
