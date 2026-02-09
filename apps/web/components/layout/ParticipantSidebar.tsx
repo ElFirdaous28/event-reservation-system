@@ -9,7 +9,7 @@ export function ParticipantSidebar() {
   const pathname = usePathname();
 
   const links = [
-    { href: '/participant', label: 'Dashboard', icon: Home },
+    { href: '/participant/dashboard', label: 'Dashboard', icon: Home },
     { href: '/events', label: 'Browse Events', icon: PartyPopper },
     {
       href: '/participant/my-reservations',

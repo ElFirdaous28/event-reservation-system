@@ -9,7 +9,7 @@ export function AdminSidebar() {
   const pathname = usePathname();
 
   const links = [
-    { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/events', label: 'Manage Events', icon: CalendarDays },
     { href: '/admin/reservations', label: 'Reservations', icon: Ticket },
     { href: '/admin/users', label: 'Users', icon: Users },
